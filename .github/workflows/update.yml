@@ -35,4 +35,4 @@ jobs:
           destination-repository-name: 'JaxGM.github.io'
           user-email: flume_prowl_0n@icloud.com
           target-branch: main
-          target-directory: ./deca-exam-simulator/
+          target-directory: ./DECA-ExamSimulator/

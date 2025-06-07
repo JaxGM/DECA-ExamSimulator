@@ -1,4 +1,4 @@
-name: Update Notation Sheet and Exam Simulator
+name: Update Exam Simulator Pages
 
 on:
   push:
@@ -11,43 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     container: ubuntu
     steps:
+      # Checkout DECA-ExamSimulator repo (this one)
       - uses: actions/checkout@v2
 
-      # OPTIONAL: Install dependencies or run build scripts if needed
-      # - name: Run your build script
-      #   run: sh ./build.sh
-
-      # Push notationSheet for main branch
-      - name: Push notationSheet to another repository (main)
-        id: push_notation_main
-        uses: cpina/github-action-push-to-another-repository@main
-        if: github.ref == 'refs/heads/main'
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: ./files/
-          destination-github-username: 'JaxGM'
-          destination-repository-name: 'JaxGM.github.io'
-          user-email: flume_prowl_0n@icloud.com
-          target-branch: main
-          target-directory: ./notationSheet/
-
-      # Push notationSheet for dev branch
-      - name: Push notationSheet to another repository (dev)
-        id: push_notation_dev
-        uses: cpina/github-action-push-to-another-repository@main
-        if: github.ref == 'refs/heads/dev'
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: ./files/
-          destination-github-username: 'JaxGM'
-          destination-repository-name: 'JaxGM.github.io'
-          user-email: flume_prowl_0n@icloud.com
-          target-branch: main
-          target-directory: ./notationSheet/dev/
-
-      # Clone DECA-ExamSimulator repo
+      # Clone DECA-ExamSimulator repo again (if needed — or just use current files)
       - name: Clone DECA-ExamSimulator
         uses: actions/checkout@v4
         with:
@@ -55,7 +22,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           path: deca-exam-simulator
 
-      # Push DECA-ExamSimulator contents to your Pages repo
+      # Push DECA-ExamSimulator to your Pages repo
       - name: Push DECA-ExamSimulator to another repository
         id: push_exam_simulator
         uses: cpina/github-action-push-to-another-repository@main
@@ -68,4 +35,4 @@ jobs:
           destination-repository-name: 'JaxGM.github.io'
           user-email: flume_prowl_0n@icloud.com
           target-branch: main
-          target-directory: ./examSimulator/
+          target-directory: ./deca-exam-simulator/

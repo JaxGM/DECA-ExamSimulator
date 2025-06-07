@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DECA Test Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src = "index.js"></script>
+</head>
+
+<body onload="onStart()">
+<div id="Title">
+    <img src="Media/DECA-Logo.webp" alt="DECA Logo">
+    <h1>DECA Test Simulator</h1>
+    <p id="dates" style="text-align: center; flex-grow: 100;"><strong>100</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;| <strong>130</strong>&nbsp;days&nbsp;until&nbsp;ICDC</p>
+</div>
+
+<h2>A <i>Plantation High School DECA</i> Project</h2>
+
+<div id="BubbleHead">
+    <div id="TestStart">
+        <input id="URL" placeholder="Paste a DECA.org or DECA+ link here:">
+        <button onclick="newExam('test')" id="newTest">New Test</button>
+        <button id="newTraining">New Training</button>
+    </div>
+    
+    <div id="ExamHead">
+        <h3 id="ExamType">DECA Exam</h3>
+        <p id="mode" style="text-align: right; flex-grow: 1;">Welcome!</p>
+    </div>
+
+    <div id="Progress" class = "bar">
+        <p id="ProgressText">0%</p>
+        <progress id="ProgressBar" max="100" value="0"></progress>        
+        <p id="ProgressText">0/100</p>
+    </div>
+
+        
+    <div id="controls" hidden>
+        <button onclick="lastQuestion()" id="advancement<"><</button>
+        <p id="questionNumber">Question #</p>
+        <button onclick="nextQuestion()" id="advancement>">></button>
+    
+        <button id="reviewButton" onclick="callReview()">Review</button>
+        <button id="subScore" hidden>Submit & Score</button>
+    </div>
+</div>
+
+<div id="BubbleScore" hidden>
+    Hey
+</div>
+
+<div id="BubbleQuestion" hidden>
+    <div id="id1">
+        <p id="QuestionPhrase">1. You have been asked a question. Select the correct answer.</p>
+        <div id="AnswerChoices">
+            <div id="AnswerChoice">
+                <input type="radio" name="RadioButton" id="AButton">
+                <p id="ALetter">&nbspA.&nbsp</p>
+                <p id="AText">recriutment</p>
+            </div>
+
+            <div id="AnswerChoice">
+                <input type="radio" name="RadioButton" id="BButton">
+                <p id="BLetter">&nbspB.&nbsp</p>
+                <p id="BText">somthing</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="BubbleReveiw" hidden>
+    
+
+</div>
+
+</body>
+</html>

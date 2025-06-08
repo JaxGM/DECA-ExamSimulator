@@ -20,7 +20,7 @@
     <div id="TestStart">
         <input id="URL" placeholder="Paste a DECA.org or DECA+ link here:">
         <button onclick="newExam('test')" id="newTest">New Test</button>
-        <button id="newTraining">New Training</button>
+        <button id="newTraining" onclick="newExam('training')">New Training</button>
     </div>
     
     <div id="ExamHead">
@@ -29,7 +29,7 @@
     </div>
 
     <div id="Progress" class = "bar">
-        <p id="ProgressText">0%</p>
+        <p id="ProgressPercent">0%</p>
         <progress id="ProgressBar" max="100" value="0"></progress>        
         <p id="ProgressText">0/100</p>
     </div>
@@ -41,7 +41,7 @@
         <button onclick="nextQuestion()" id="advancement>">></button>
     
         <button id="reviewButton" onclick="callReview()">Review</button>
-        <button id="subScore" hidden>Submit & Score</button>
+        <button id="subScore" onclick="scoreTest()" hidden>Submit & Score</button>
     </div>
 </div>
 
@@ -54,7 +54,7 @@
         <p id="QuestionPhrase">1. You have been asked a question. Select the correct answer.</p>
         <div id="AnswerChoices">
             <div id="AnswerChoice">
-                <input type="radio" name="RadioButton" id="AButton">
+                <input type="radio" name="RadioButton" class="Radio" onclick="recordResponce()" id="AButton">
                 <p id="ALetter">&nbspA.&nbsp</p>
                 <p id="AText">recriutment</p>
             </div>
@@ -65,6 +65,7 @@
                 <p id="BText">somthing</p>
             </div>
         </div>
+        <p id="1Reasoning" class="reasoning">Repossession. When a borrower defaults (fails to pay for an extended period of time) on their loan, the lender— in this case, Tommy's bank—may choose to claim the collateral—Tommy's car—that was used to secure the loan. Tommy will no longer be expected to pay on the loan, but he also will no longer have his car. Foreclosure is similar to repossession, but the term is used strictly to refer to the seizure of a mortgaged property, usually a house or other type of real estate. Forbearance is an agreement between a mortgagee and a mortgager to delay foreclosure proceedings. A debt consolidation involves taking out a new loan to pay off multiple other loans and debts.</p>
     </div>
 </div>
 

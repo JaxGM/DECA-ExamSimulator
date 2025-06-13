@@ -1,6 +1,36 @@
 let examCatageory, data, mode, temp, cdcDate, icdcDate, reviewSet, loading, counter, url, questionSet, correct, incorrect, progress;
 let currentQ = 1;
 
+let chartConig, chartContent;
+
+function chartTime() {
+    document.getElementById("chart").destroy();
+
+    console.log(correct);
+    console.log(100-(correct+incorrect));
+    console.log(incorrect);
+
+    new Chart(document.getElementById("chart"), {
+        type: 'doughnut',
+        data: {
+            labels: [
+            'Red',
+            'Blue',
+            'Yellow'
+        ],
+        datasets: [{
+            label: 'Results',
+            data: [correct, 100-(correct+incorrect), incorrect],
+            backgroundColor: [
+            'rgb(0, 248, 45)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 0, 0)'
+            ],
+            hoverOffset: 4
+        }]
+        }});
+}
+
 function onStart() {
     dates();
 
@@ -33,7 +63,7 @@ function dates() {
 
 function newExam(type) {
     url = document.getElementById("URL").value;
-    //url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
+    url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
     console.log(url);
 
     loading = true;
@@ -58,10 +88,18 @@ function newExam(type) {
             document.getElementById("newTest").innerText = "New Test";
             //document.getElementById("QuestionPhrase").innerText = data[1][0]+". "+data[1][1];
 
+            document.getElementById("reviewButton").innerText = "Review"
+
             if ((data != "error") && (type == 'test') && Array.isArray(data)) {
                 document.getElementById("mode").innerText = "Testing Mode"
-                correct, incorrect, progress = 0
+                correct = 0
+                incorrect = 0
+                progress = 0
 
+                document.getElementById("Progress").hidden = false;
+                document.getElementById("ProgressPercent").hidden = false;
+                document.getElementById("ProgressBar").hidden = false;
+                document.getElementById("ProgressText").hidden = false;
 
                 questionSet = ""
                 for (let i = 1; i < data.length; i++) {
@@ -72,28 +110,28 @@ function newExam(type) {
 
                     // A
                     questionSet = questionSet + "<div id=\"AnswerChoice\">"
-                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"AButton\"></input>"
+                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"AButton"+i+"\"></input>"
                     questionSet = questionSet + "<p id=\""+i+"ALetter\">&nbspA.&nbsp</p>"
                     questionSet = questionSet + "<p id=\""+i+"AText\">"+data[i][2]+"</p>"
                     questionSet = questionSet + "</div>"
 
                     // B
                     questionSet = questionSet + "<div id=\"AnswerChoice\">"
-                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"BButton\"></input>"
+                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"BButton"+i+"\"></input>"
                     questionSet = questionSet + "<p id=\""+i+"BLetter\">&nbspB.&nbsp</p>"
                     questionSet = questionSet + "<p id=\""+i+"BText\">"+data[i][3]+"</p>"
                     questionSet = questionSet + "</div>"
 
                     // C
                     questionSet = questionSet + "<div id=\"AnswerChoice\">"
-                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"CButton\"></input>"
+                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"CButton"+i+"\"></input>"
                     questionSet = questionSet + "<p id=\""+i+"CLetter\">&nbspC.&nbsp</p>"
                     questionSet = questionSet + "<p id=\""+i+"CText\">"+data[i][4]+"</p>"
                     questionSet = questionSet + "</div>"
 
                     // D
                     questionSet = questionSet + "<div id=\"AnswerChoice\">"
-                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"DButton\"></input>"
+                    questionSet = questionSet + "<input type=\"radio\" class=\"Radio\" onclick=\"recordResponce()\" name=\"RadioButton"+i+"\" id=\"DButton"+i+"\"></input>"
                     questionSet = questionSet + "<p id=\""+i+"DLetter\">&nbspD.&nbsp</p>"
                     questionSet = questionSet + "<p id=\""+i+"DText\">"+data[i][5]+"</p>"
                     questionSet = questionSet + "</div>"
@@ -163,10 +201,6 @@ function newExam(type) {
     
 }
 
-function updateProgressPercent() {
-
-}
-
 function callQuestion(number) {
     document.getElementById("advancement<").hidden = false;
     document.getElementById("advancement>").hidden = false;
@@ -182,11 +216,12 @@ function callQuestion(number) {
     currentQ = number;
     document.getElementById("id"+number).hidden = false;
     document.getElementById("questionNumber").innerText = "Questiom " + number
-    updateProgressPercent()
 
 }
 
 function recordResponce() {
+    console.log(incorrect)
+    console.log(correct)
     //commit answer to data
     qualifyingButtons = document.getElementsByName('RadioButton' + currentQ);
     for (i = 0; i < qualifyingButtons.length; i++) {
@@ -241,15 +276,31 @@ function recordResponce() {
 }
 
 function callReview() {
-    document.getElementById("advancement<").hidden = true;
-    document.getElementById("advancement>").hidden = true;
-    document.getElementById("BubbleQuestion").hidden = true;
 
-    document.getElementById("BubbleReveiw").hidden = false;
-    document.getElementById("reviewButton").hidden = true;
-    document.getElementById("subScore").hidden = false;
+    if (progress == "Scored") {
+        document.getElementById("BubbleQuestion").hidden = true;
+        document.getElementById("advancement<").hidden = true;
+        document.getElementById("advancement>").hidden = true;
+        document.getElementById("reviewButton").hidden = true;
 
-    document.getElementById("questionNumber").innerText = "Review Page"
+        document.getElementById("BubbleReveiw").hidden = false;
+
+        document.getElementById("questionNumber").innerText = "Results Page"
+        
+
+
+        
+    } else {
+        document.getElementById("advancement<").hidden = true;
+        document.getElementById("advancement>").hidden = true;
+        document.getElementById("BubbleQuestion").hidden = true;
+
+        document.getElementById("BubbleReveiw").hidden = false;
+        document.getElementById("reviewButton").hidden = true;
+        document.getElementById("subScore").hidden = false;
+
+        document.getElementById("questionNumber").innerText = "Review Page"
+    }
 }
 
 function nextQuestion() {
@@ -267,15 +318,26 @@ function lastQuestion() {
 }
 
 function scoreTest() {
-    document.getElementById("")
+    document.getElementById("Progress").hidden = true;
+    document.getElementById("ProgressPercent").hidden = true;
+    document.getElementById("ProgressBar").hidden = true;
+    document.getElementById("ProgressText").hidden = true;
+
+    progress = "Scored";
+
+    document.getElementById("reviewButton").innerText = "Results"
+
     for (i=1; i <= 100; i++) {
         // Score
+
+
 
         // Set Red     // Set Green      // Set Blue
         if (data[i][8]) {
             if (data[i][9] == data[i][6]) {
                 document.getElementById(i+"ReviewChoice"+data[i][9]).className = "greenRihgt"
                 correct = correct + 1;
+
             } else if (data[i][9] != data[i][6]) {
                 document.getElementById(i+"ReviewChoice"+data[i][9]).className = "redWrong"
                 document.getElementById(i+"ReviewChoice"+data[i][6]).className = "actualAnswer"
@@ -289,15 +351,24 @@ function scoreTest() {
         document.getElementById(i+"Reasoning").hidden = false;
         document.getElementById(i+"Reasoning").innerHTML = "<i><strong>" + data[i][7] + "</strong></i>";
 
-        // Lock Radio buttons
         document.getElementById("questionNumber").innerText = "Results Page"
         document.getElementById("RevHead").innerHTML = "<u>Results</u>"
 
         document.getElementById("subScore").hidden = true;
         document.getElementById("Disclaim").hidden = false;
 
-
+        // Lock Radio buttons
+        document.getElementById("AButton"+i).disabled = true;
+        document.getElementById("BButton"+i).disabled = true;
+        document.getElementById("CButton"+i).disabled = true;
+        document.getElementById("DButton"+i).disabled = true;
     }
+
+    // Display Score
+    chartTime()
+
+
+
 }
 
 

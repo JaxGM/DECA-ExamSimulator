@@ -4,7 +4,6 @@
     --b: 255;
 }
 
-
 body {
     /* https://cssgradient.io/ */
     background: rgba(var(--r), var(--g), var(--b), 100);
@@ -104,6 +103,7 @@ h5 {
 #skipped {
     color: rgb(54, 162, 235);
 }
+
 #incorrect {
     color: rgb(234, 42, 42);
 }

@@ -2,29 +2,42 @@ let examCatageory, data, mode, temp, cdcDate, icdcDate, reviewSet, loading, coun
 let currentQ = 1;
 
 let chartConig, chartContent;
+let charted = false;
 
 function chartTime() {
-    document.getElementById("chart").destroy();
+    document.getElementById("SocreChart").hidden = false;
+    document.getElementById("SocreChart").style.display = "flex";
 
+    if (charted){
+        //document.getElementById("chart").getContext("2d").destroy();
+    }
+    
+    charted = true;
     console.log(correct);
     console.log(100-(correct+incorrect));
     console.log(incorrect);
 
     new Chart(document.getElementById("chart"), {
         type: 'doughnut',
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        },
         data: {
             labels: [
-            'Red',
-            'Blue',
-            'Yellow'
+                'Correct',
+                'Skipped',
+                'Incorrect'
         ],
         datasets: [{
-            label: 'Results',
             data: [correct, 100-(correct+incorrect), incorrect],
             backgroundColor: [
-            'rgb(0, 248, 45)',
+            'rgb(43, 188, 21)',
             'rgb(54, 162, 235)',
-            'rgb(255, 0, 0)'
+            'rgb(234, 42, 42)'
             ],
             hoverOffset: 4
         }]

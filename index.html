@@ -30,14 +30,13 @@
         <p id="mode" style="text-align: right; flex-grow: 1;">Welcome!</p>
     </div>
 
-    <div id="SocreChart">
-        <canvas id="chart" height="5rem" width="5rem"></canvas>
+    <div id="SocreChart" hidden>
+        <canvas id="chart"></canvas>
         <div id="ScoresList">
-            <h6 id="correct" onclick="chartTime()">Correct: 13</h6>
-            <h6 id="Skipped">Skipped: 13</h6>
-            <h6 id="Incorrect">Incorrect: 13</h6>
+            <p id="correct" onclick="chartTime()"><strong>Correct</strong>: 13</p>
+            <p id="skipped"><strong>Skipped</strong>: 13</p>
+            <p id="incorrect"><strong>Incorrect</strong>: 13</p>
         </div>
-
     </div>
 
     <div id="Progress" class = "bar">

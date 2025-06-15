@@ -1,5 +1,5 @@
 <html>
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,7 @@
             <p id="mode" style="text-align: right; flex-grow: 1;">Welcome!</p>
         </div>
 
-        <div id="SocreChart" hidden>
+        <div id="ScoreChart">
             <canvas id="chart"></canvas>
             <div id="ScoresList">
                 <p id="correct" onclick="chartTime()"><strong>Correct</strong>: 13</p>
@@ -50,13 +50,12 @@
 
 
         <div id="controls" hidden>
-            <button onclick="lastQuestion()" id="advancement<">
-                << /button>
-                    <p id="questionNumber">Question #</p>
-                    <button onclick="nextQuestion()" id="advancement>">></button>
+            <button onclick="lastQuestion()" id="advancement<"><</button>
+            <p id="questionNumber">Question #</p>
+            <button onclick="nextQuestion()" id="advancement>">></button>
 
-                    <button id="reviewButton" onclick="callReview()">Review</button>
-                    <button id="subScore" onclick="scoreTest()" hidden>Submit & Score</button>
+            <button id="reviewButton" onclick="callReview()">Review</button>
+            <button id="subScore" onclick="scoreTest()" hidden>Submit & Score</button>
         </div>
     </div>
 

@@ -1,42 +1,46 @@
 :root {
-    --r: 121;
-    --g: 84;
-    --b: 255;
+	--r: 121;
+	--g: 84;
+	--b: 255;
 }
 
 body {
-    /* https://cssgradient.io/ */
-    background: rgba(var(--r), var(--g), var(--b), 100);
-    background: linear-gradient(180deg, rgba(var(--r), var(--g), var(--b), 0.25) 0%, rgba(255, 255, 255, 0) 50%, rgba(var(--r), var(--g), var(--b), 0.25) 100%);
+	/* https://cssgradient.io/ */
+	background: rgba(var(--r), var(--g), var(--b), 100);
+	background: linear-gradient(
+		180deg,
+		rgba(var(--r), var(--g), var(--b), 0.25) 0%,
+		rgba(255, 255, 255, 0) 50%,
+		rgba(var(--r), var(--g), var(--b), 0.25) 100%
+	);
 }
 
 #Title {
-    font-family: sans-serif;
-    display: flex;
-    align-items: center;
-    margin-top: -1rem;
-    margin-bottom: -1.5rem;
-
+	font-family: sans-serif;
+	display: flex;
+	align-items: center;
+	margin-top: -1rem;
+	margin-bottom: -1.5rem;
 }
 
 h1 {
-    font-family: sans-serif;
-    color: rgb(35, 93, 167);
-    font-size: 2.5rem;
+	font-family: sans-serif;
+	color: rgb(35, 93, 167);
+	font-size: 2.5rem;
 }
 
 img {
-    width: 3.5rem;
-    height: 3.5rem;
+	width: 3.5rem;
+	height: 3.5rem;
 
-    margin-right: 0.5rem;
+	margin-right: 0.5rem;
 }
 
 h2 {
-    font-family: serif;
-    color: rgb(13, 41, 78);
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
+	font-family: serif;
+	color: rgb(13, 41, 78);
+	font-size: 1.25rem;
+	margin-bottom: 1.5rem;
 }
 
 #Bubble,
@@ -44,208 +48,207 @@ h2 {
 #BubbleScore,
 #BubbleQuestion,
 #BubbleReveiw {
-    /*box-shadow: 0 0 0.4rem grey;
+	/*box-shadow: 0 0 0.4rem grey;
     background-color: white;*/
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    margin: 0.75rem;
+	padding-left: 0.75rem;
+	padding-right: 0.75rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	margin: 0.75rem;
 
-    /* From https://css.glass */
-    background: rgba(255, 255, 255, 0.50);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5.4px);
-    -webkit-backdrop-filter: blur(5.4px);
-    border: 1px solid rgba(255, 255, 255, 0.56);
-}
-
-#ScoreChart {
-    display: flex;
-
+	/* From https://css.glass */
+	background: rgba(255, 255, 255, 0.5);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(5.4px);
+	-webkit-backdrop-filter: blur(5.4px);
+	border: 1px solid rgba(255, 255, 255, 0.56);
 }
 
 h5 {
-    margin-top: -0.75rem;
+	margin-top: -0.75rem;
 }
 
 #TestStart {
-    float: right;
+	float: right;
 }
 
 #URL {
-    width: 60vw;
+	width: 60vw;
 }
 
-#SocreChart {
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
+#ScoreChart {
+	/* display: flex; */
+	display: none;
+	justify-content: center;
+	align-items: center;
 
-    font-family: sans-serif;
-    font-size: 1.5rem;
+	font-family: sans-serif;
+	font-size: 1.5rem;
 
-    margin-top: -0.5rem;
-    margin-bottom: 2rem;
+	margin-top: -0.5rem;
+	margin-bottom: 2rem;
 }
 
 #chart {
-    height: 15rem !important;
-    width: 15rem !important;
-    margin-right: 0.5rem;
+	height: 15rem !important;
+	width: 15rem !important;
+	margin-right: 0.5rem;
 }
 
 #correct {
-    color: rgb(43, 188, 21);
+	color: rgb(43, 188, 21);
 }
 
 #skipped {
-    color: rgb(54, 162, 235);
+	color: rgb(54, 162, 235);
 }
 
 #incorrect {
-    color: rgb(234, 42, 42);
+	color: rgb(234, 42, 42);
 }
 
-
 #User {
-    padding-right: 1rem;
+	padding-right: 1rem;
 }
 
 button {
-    background-color: rgb(41, 111, 202);
-    color: white;
+	background-color: rgb(41, 111, 202);
+	color: white;
 }
 
 button:hover {
-    background-color: rgb(28, 84, 157);
-    color: white;
-    cursor: hand;
+	background-color: rgb(28, 84, 157);
+	color: white;
+	cursor: hand;
 }
 
 button:active {
-    background-color: rgb(13, 45, 87);
-    color: white;
+	background-color: rgb(13, 45, 87);
+	color: white;
 }
 
 #newTest,
 #newTraining {
-    width: 6rem;
+	width: 6rem;
 }
 
 #ExamHead {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: nowrap;
-    width: 100%;
+	display: flex;
+	align-items: baseline;
+	flex-wrap: nowrap;
+	width: 100%;
 
-    font-family: sans-serif;
-    color: rgba(var(--r), var(--g), var(--b), 100);
+	font-family: sans-serif;
+	color: rgba(var(--r), var(--g), var(--b), 100);
 }
 
 h3 {
-    font-size: 2rem;
-    margin-top: 0.75rem;
+	font-size: 2rem;
+	margin-top: 0.75rem;
 }
 
 .bar {
-    display: flex;
-    flex-direction: nowrap;
-    align-items: center;
+	display: flex;
+	flex-direction: nowrap;
+	align-items: center;
 
-    margin-top: -2rem;
+	margin-top: -2rem;
 }
 
 .reasoning {
-    padding: 0.25rem;
-    margin-top: -0.75;
-    font-size: 1.25rem;
+	padding: 0.25rem;
+	margin-top: -0.75;
+	font-size: 1.25rem;
 }
 
 .controlsON {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    margin-bottom: 0.5rem;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-end;
+	margin-bottom: 0.5rem;
 }
 
 #questionNumber {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+	margin-top: 0.25rem;
+	margin-bottom: 0.25rem;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
 }
 
 .radio:hover {
-    cursor: hand;
+	cursor: hand;
 }
 
 #reviewButton {
-    margin-left: 0.75rem;
+	margin-left: 0.75rem;
 }
 
 progress {
-    flex-grow: 2;
-    flex-shrink: 2;
+	flex-grow: 2;
+	flex-shrink: 2;
 
-    margin-left: 1rem;
-    margin-right: 1rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
 }
 
 #QuestionPhrase {
-    margin-bottom: 1.25rem;
-    margin-left: 0.5rem;
-    font-size: 1.25rem;
+	margin-bottom: 1.25rem;
+	margin-left: 0.5rem;
+	font-size: 1.25rem;
 }
 
 #AnswerChoice {
-    display: flex;
-    align-items: baseline;
-    margin-top: -1.25rem;
-    margin-left: 1rem;
-    font-size: 1.25rem;
+	display: flex;
+	align-items: baseline;
+	margin-top: -1.25rem;
+	margin-left: 1rem;
+	font-size: 1.25rem;
 }
 
 .ReviewChoice {
-    display: flex;
-    align-items: baseline;
-    margin-top: -1.25rem;
-    margin-left: 1rem;
-    font-size: 1rem;
+	display: flex;
+	align-items: baseline;
+	margin-top: -1.25rem;
+	margin-left: 1rem;
+	font-size: 1rem;
 }
 
 .reviewPart:hover {
-    opacity: 70%;
-    cursor: hand;
+	opacity: 70%;
+	cursor: hand;
 }
 
 .redWrong {
-    color: rgb(234, 42, 42);
+	color: rgb(234, 42, 42);
 
-    display: flex;
-    align-items: baseline;
-    margin-top: -1.25rem;
-    margin-left: 1rem;
-    font-size: 1rem;
+	display: flex;
+	align-items: baseline;
+	margin-top: -1.25rem;
+	margin-left: 1rem;
+	font-size: 1rem;
 }
 
 .greenRihgt {
-    color: rgb(43, 188, 21);
+	color: rgb(43, 188, 21);
 
-    display: flex;
-    align-items: baseline;
-    margin-top: -1.25rem;
-    margin-left: 1rem;
-    font-size: 1rem;
+	display: flex;
+	align-items: baseline;
+	margin-top: -1.25rem;
+	margin-left: 1rem;
+	font-size: 1rem;
 }
 
 .actualAnswer {
-    color: rgb(54, 162, 235);
+	color: rgb(54, 162, 235);
 
-    display: flex;
-    align-items: baseline;
-    margin-top: -1.25rem;
-    margin-left: 1rem;
-    font-size: 1rem;
+	display: flex;
+	align-items: baseline;
+	margin-top: -1.25rem;
+	margin-left: 1rem;
+	font-size: 1rem;
+}
+
+.clickable:hover {
+	cursor: hand;
 }

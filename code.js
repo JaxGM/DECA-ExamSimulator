@@ -204,6 +204,9 @@ function newExam(type) {
 					correct = 0;
 					incorrect = 0;
 					progress = 0;
+					document.getElementById("ProgressPercent").innerText = progress + "%";
+					document.getElementById("ProgressBar").value = progress;
+					document.getElementById("ProgressText").innerText = progress + "/100";
 
 					document.getElementById("Progress").hidden = false;
 					document.getElementById("ProgressPercent").hidden = false;

@@ -306,9 +306,9 @@ function displayResults() {
 	document.getElementById("correct").innerHTML =
 		"<strong>Correct</strong>: " + correct + "</p>";
 	document.getElementById("skipped").innerHTML =
-		"<strong>Correct</strong>: " + (100 - (correct + incorrect)) + "</p>";
+		"<strong>Skipped</strong>: " + (100 - (correct + incorrect)) + "</p>";
 	document.getElementById("incorrect").innerHTML =
-		"<strong>Correct</strong>: " + incorrect + "</p>";
+		"<strong>Incorrect</strong>: " + incorrect + "</p>";
 
 	//Create Chart
 	if (scoreChart) {

@@ -1,6 +1,5 @@
 // Global Data
-let cdcDate = "";
-let icdcDate = "2026-04-25";
+import * as global from './global.js';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -21,6 +20,14 @@ let cdcCountdown,
 	examCatageory;
 let currentQ = 1;
 
+/////////////////////////////////////////////////////////////////////////
+
+import app from './firebase.js';
+console.log("Firebase app loaded:", app);
+
+/////////////////////////////////////////////////////////////////////////
+
+
 // Calculates and displays the countdown to CDC testing and ICDC testing
 function dates() {
 	const today = new Date();
@@ -28,33 +35,33 @@ function dates() {
 
 	// CDC
 	try {
-		cdcDate = Math.round(
-			(new Date(cdcDate).setHours(0, 0, 0, 0) - today) /
+		global.cdcDate = Math.round(
+			(new Date(global.cdcDate).setHours(0, 0, 0, 0) - today) /
 				(1000 * 60 * 60 * 24)
 		);
-		cdcDate = isNaN(cdcDate) ? "TBD" : cdcDate;
+		global.cdcDate = isNaN(global.cdcDate) ? "TBD" : global.cdcDate;
 	} catch (error) {
-		cdcDate = "TBD";
+		global.cdcDate = "TBD";
 	}
 
 	// ICDC
 	try {
-		icdcDate = Math.round(
-			(new Date(icdcDate).setHours(0, 0, 0, 0) - today) /
+		global.icdcDate = Math.round(
+			(new Date(global.icdcDate).setHours(0, 0, 0, 0) - today) /
 				(1000 * 60 * 60 * 24)
 		);
-		icdcDate = isNaN(icdcDate) ? "TBD" : icdcDate;
+		global.icdcDate = isNaN(global.icdcDate) ? "TBD" : global.icdcDate;
 	} catch (error) {
-		icdcDate = "TBD";
-		console.log(icdcDate);
+		global.icdcDate = "TBD";
+		console.log(global.icdcDate);
 	}
 
 	// Push
 	document.getElementById("dates").innerHTML =
 		"<strong>" +
-		cdcDate +
+		global.cdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;Testing&nbsp;| <strong>" +
-		icdcDate +
+		global.icdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;ICDC";
 }
 

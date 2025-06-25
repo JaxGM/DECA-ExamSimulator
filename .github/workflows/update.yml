@@ -1,4 +1,5 @@
-name: Update Exam Simulator Pages
+# For Use on Github Pages
+name: Update Exam Simulator on Githib Pages
 
 on:
   push:

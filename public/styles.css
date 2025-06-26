@@ -43,11 +43,7 @@ h2 {
 	margin-bottom: 1.5rem;
 }
 
-#Bubble,
-#BubbleHead,
-#BubbleScore,
-#BubbleQuestion,
-#BubbleReveiw {
+.bubble {
 	/*box-shadow: 0 0 0.4rem grey;
     background-color: white;*/
 	padding-left: 0.75rem;
@@ -251,4 +247,19 @@ progress {
 
 .clickable:hover {
 	cursor: hand;
+}
+
+.popup {
+	margin: 10rem;
+	padding: 5rem;
+	position: fixed;
+	transition: all 5s ease-in-out;
+	
+	/* From https://css.glass */
+	background: rgba(0, 0, 0, 0.4);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(9.2px);
+	-webkit-backdrop-filter: blur(9.2px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
 }

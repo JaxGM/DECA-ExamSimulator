@@ -27,6 +27,12 @@ console.log("Firebase app loaded:", app);
 
 /////////////////////////////////////////////////////////////////////////
 
+import { getAuth, RecaptchaVerifier } from "firebase/auth";
+
+const auth = getAuth();
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {});
+
+/////////////////////////////////////////////////////////////////////////
 
 // Calculates and displays the countdown to CDC testing and ICDC testing
 function dates() {

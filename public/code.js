@@ -1,5 +1,5 @@
 // Global Data
-import * as global from './global.js';
+// import * as global from './global.js';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -22,15 +22,8 @@ let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
 
-import app from './firebase.js';
-console.log("Firebase app loaded:", app);
-
-/////////////////////////////////////////////////////////////////////////
-
-import { getAuth, RecaptchaVerifier } from "firebase/auth";
-
-const auth = getAuth();
-window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {});
+// import { app, auth } from './firebase.js';
+// console.log("Firebase app loaded:", app);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -408,4 +401,9 @@ function scoreTest() {
 
 	// Display Score
 	displayResults();
+}
+
+//Login
+function login() {
+	document.getElementById("LoginPage").classList.add('open');
 }

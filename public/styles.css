@@ -250,16 +250,33 @@ progress {
 }
 
 .popup {
-	margin: 10rem;
 	padding: 5rem;
+	margin-top: 2.5rem;
+	top: 0rem;
+
+	left: 25%;
+
+	right: 25%;
+	
 	position: fixed;
-	transition: all 5s ease-in-out;
+	transition: all 3s ease-in-out;
+	transform-origin: top;
+	transform: scaleY(0);
+
+	pointer-events: none;
+	opacity: 0;
 	
 	/* From https://css.glass */
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(184, 57, 76, 0.35);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(9.2px);
+	backdrop-filter: blur(7px);
 	-webkit-backdrop-filter: blur(9.2px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.popup.open {
+	transform: scaleY(1);
+	pointer-events: auto;
+	opacity: 1;
 }

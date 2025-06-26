@@ -1,0 +1,31 @@
+Path Forward Notes (thx Copilot)
+
+1. Decide on Script Style:
+   - If you want to keep using classic scripts (no modules), remove all `import`/`export` from your JS files.
+   - Use the global `firebase` object by including Firebase CDN scripts in your HTML before your own scripts.
+
+2. Firebase Setup:
+   - In your HTML <head>:
+     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+     <script src="firebase.js"></script>
+   - In firebase.js, initialize Firebase using the global object (no imports/exports).
+
+3. Function Accessibility:
+   - All functions will be global, so you can use them in HTML attributes like `onclick`, `onload`, etc.
+
+4. If you ever want to use ES modules in the future:
+   - Use `type="module"` in your script tags.
+   - Use full CDN URLs for Firebase imports.
+   - Attach any functions you want to call from HTML to `window`.
+
+5. Next Steps:
+   - Test your login and Firebase features with the classic setup.
+   - Refactor code for clarity and remove any unused imports/exports.
+   - Document any changes you make for future reference.
+
+6. When you return:
+   - Double-check that all Firebase features work as expected.
+   - Continue building out authentication or other features as needed.
+
+Take a

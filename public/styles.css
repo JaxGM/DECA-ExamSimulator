@@ -259,7 +259,7 @@ progress {
 	right: 25%;
 	
 	position: fixed;
-	transition: all 3s ease-in-out;
+	transition: all 0.25s ease-in-out;
 	transform-origin: top;
 	transform: scaleY(0);
 

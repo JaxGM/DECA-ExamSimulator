@@ -1,29 +1,11 @@
 // Global Data
-// import * as global from './global.js';
+import * as global from "./global.js";
 
 /////////////////////////////////////////////////////////////////////////
 
 // Init Variables
-let cdcCountdown,
-	correct,
-	counter,
-	data,
-	icdcCountdown,
-	incorrect,
-	mode,
-	progress,
-	questionSet,
-	reviewSet,
-	scoreChart,
-	temp,
-	url,
-	examCatageory;
+let correct, data, cdcDate, icdcDate, incorrect, progress, questionSet, reviewSet, scoreChart, url;
 let currentQ = 1;
-
-/////////////////////////////////////////////////////////////////////////
-
-// import { app, auth } from './firebase.js';
-// console.log("Firebase app loaded:", app);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -34,33 +16,33 @@ function dates() {
 
 	// CDC
 	try {
-		global.cdcDate = Math.round(
+		cdcDate = Math.round(
 			(new Date(global.cdcDate).setHours(0, 0, 0, 0) - today) /
 				(1000 * 60 * 60 * 24)
 		);
-		global.cdcDate = isNaN(global.cdcDate) ? "TBD" : global.cdcDate;
+		cdcDate = isNaN(cdcDate) ? "TBD" : cdcDate;
 	} catch (error) {
-		global.cdcDate = "TBD";
+		cdcDate = "TBD";
 	}
 
 	// ICDC
 	try {
-		global.icdcDate = Math.round(
+		icdcDate = Math.round(
 			(new Date(global.icdcDate).setHours(0, 0, 0, 0) - today) /
 				(1000 * 60 * 60 * 24)
 		);
-		global.icdcDate = isNaN(global.icdcDate) ? "TBD" : global.icdcDate;
+		icdcDate = isNaN(icdcDate) ? "TBD" : icdcDate;
 	} catch (error) {
 		global.icdcDate = "TBD";
-		console.log(global.icdcDate);
+		console.log(icdcDate);
 	}
 
 	// Push
 	document.getElementById("dates").innerHTML =
 		"<strong>" +
-		global.cdcDate +
+		cdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;Testing&nbsp;| <strong>" +
-		global.icdcDate +
+		icdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;ICDC";
 }
 
@@ -101,7 +83,7 @@ function recordResponce() {
 	console.log(correct);
 	//commit answer to data
 	qualifyingButtons = document.getElementsByName("RadioButton" + currentQ);
-	for (i = 0; i < qualifyingButtons.length; i++) {
+	for (let i = 0; i < qualifyingButtons.length; i++) {
 		if (qualifyingButtons[i].checked) {
 			if (data[currentQ][8] != true) {
 				data[currentQ][8] = true;
@@ -167,22 +149,20 @@ function recordResponce() {
 }
 
 function altAnswer(q, a) {
-	document.getElementById(a+'Button'+q).click()
+	document.getElementById(a + "Button" + q).click();
 }
 
 // Activates the core functionality of the program
 function newExam(type) {
-
 	// Functionality is currenlty only enabled for TEST, not TRAINING.
 	if (type == "test") {
 		document.getElementById("newTest").innerText = "···";
 
 		// Process Exam
 		url = document.getElementById("URL").value;
-		
+
 		// DEBUG MODE
 		// url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
-
 
 		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
 			method: "GET",
@@ -200,19 +180,23 @@ function newExam(type) {
 				if (data != "error" && type == "test" && Array.isArray(data)) {
 					document.getElementById("ExamType").innerText = data[0][0];
 
-					document.getElementById("ScoreChart").style.display = "none";
+					document.getElementById("ScoreChart").style.display =
+						"none";
 
 					document.getElementById("newTest").innerText = "New Test";
 
-					document.getElementById("reviewButton").innerText = "Review";
+					document.getElementById("reviewButton").innerText =
+						"Review";
 
 					document.getElementById("mode").innerText = "Testing Mode";
 					correct = 0;
 					incorrect = 0;
 					progress = 0;
-					document.getElementById("ProgressPercent").innerText = progress + "%";
+					document.getElementById("ProgressPercent").innerText =
+						progress + "%";
 					document.getElementById("ProgressBar").value = progress;
-					document.getElementById("ProgressText").innerText = progress + "/100";
+					document.getElementById("ProgressText").innerText =
+						progress + "/100";
 
 					document.getElementById("Progress").hidden = false;
 					document.getElementById("ProgressPercent").hidden = false;
@@ -221,31 +205,36 @@ function newExam(type) {
 
 					questionSet = "";
 					for (let i = 1; i < data.length; i++) {
-						questionSet += `<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+						questionSet +=
+							`<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
 							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onclick="altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onclick="altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
 							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onclick="altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onclick="altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
 							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onclick="altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onclick="altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
 							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onclick="altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onclick="altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
 							`</div><p id="${i}Reasoning" class="reasoning" hidden></p></div>`;
 					}
-					document.getElementById("BubbleQuestion").innerHTML = questionSet;
+					document.getElementById("BubbleQuestion").innerHTML =
+						questionSet;
 
-					reviewSet = '<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
+					reviewSet =
+						'<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
 					for (let i = 1; i < data.length; i++) {
-						reviewSet += `<div id="rid${i}" class="reviewPart" onclick="callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+						reviewSet +=
+							`<div id="rid${i}" class="reviewPart" onclick="callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
 							`<div id="${i}ReviewChoiceA" class="ReviewChoice"><p id="${i}ALetterR">&nbspA.&nbsp</p><p id="${i}ATextR">${data[i][2]}</p></div>` +
 							`<div id="${i}ReviewChoiceB" class="ReviewChoice"><p id="${i}BLetterR">&nbspB.&nbsp</p><p id="${i}BTextR">${data[i][3]}</p></div>` +
 							`<div id="${i}ReviewChoiceC" class="ReviewChoice"><p id="${i}CLetterR">&nbspC.&nbsp</p><p id="${i}CTextR">${data[i][4]}</p></div>` +
 							`<div id="${i}ReviewChoiceD" class="ReviewChoice"><p id="${i}DLetterR">&nbspD.&nbsp</p><p id="${i}DTextR">${data[i][5]}</p></div>` +
 							`</div></div>`;
 					}
-					document.getElementById("BubbleReveiw").innerHTML = reviewSet;
+					document.getElementById("BubbleReveiw").innerHTML =
+						reviewSet;
 
 					document.getElementById("controls").hidden = false;
-					document.getElementById("controls").className = "controlsON";
+					document.getElementById("controls").className =
+						"controlsON";
 
 					callQuestion(1);
-
 				} else {
 					//error out
 					document.getElementById("newTest").innerText = "New Test";
@@ -357,7 +346,7 @@ function scoreTest() {
 
 	document.getElementById("reviewButton").innerText = "Results";
 
-	for (i = 1; i <= 100; i++) {
+	for (let i = 1; i <= 100; i++) {
 		// Score
 
 		// Set Red     // Set Green      // Set Blue
@@ -405,5 +394,22 @@ function scoreTest() {
 
 //Login
 function login() {
-	document.getElementById("LoginPage").classList.add('open');
+	document.getElementById("LoginPage").classList.add("open");
 }
+
+/////////////////////////////////////////////////////////////////////////
+
+// Export the functions
+export {
+  onStart,
+  callQuestion,
+  recordResponce,
+  altAnswer,
+  newExam,
+  callReview,
+  nextQuestion,
+  lastQuestion,
+  displayResults,
+  scoreTest,
+  login
+};

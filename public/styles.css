@@ -129,6 +129,7 @@ button:active {
 	width: 6rem;
 }
 
+
 #ExamHead {
 	display: flex;
 	align-items: baseline;
@@ -250,13 +251,19 @@ progress {
 }
 
 .popup {
-	padding: 5rem;
+	padding-left: 4rem;
+	padding-right: 4rem;
+	padding-top: 2rem;
+	padding-bottom: 2.5rem;
+
+	font-family: sans-serif;
+
 	margin-top: 2.5rem;
 	top: 0rem;
 
-	left: 25%;
+	left: 35%;
 
-	right: 25%;
+	right: 35%;
 	
 	position: fixed;
 	transition: all 0.25s ease-in-out;
@@ -272,11 +279,15 @@ progress {
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(7px);
 	-webkit-backdrop-filter: blur(9.2px);
-	border: 1px solid rgba(255, 255, 255, 0.3);
+	border: 1.5px solid rgba(255, 255, 255, 0.848);
 }
 
 .popup.open {
 	transform: scaleY(1);
 	pointer-events: auto;
 	opacity: 1;
+}
+
+.loginField {
+	flex-grow: 10;
 }

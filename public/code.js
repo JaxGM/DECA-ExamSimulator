@@ -4,8 +4,22 @@ import * as global from "./global.js";
 /////////////////////////////////////////////////////////////////////////
 
 // Init Variables
-let correct, data, cdcDate, icdcDate, incorrect, progress, questionSet, reviewSet, scoreChart, url;
+let correct, data, cdcDate, icdcDate, incorrect, progress, questionSet, reviewSet, scoreChart, url, email, password;
 let currentQ = 1;
+
+/////////////////////////////////////////////////////////////////////////
+
+// Init Firebase Stuff
+
+// Auth
+import { getAuth, 
+	createUserWithEmailAndPassword, 
+	setPersistence, 
+	signInWithEmailAndPassword, 
+	browserSessionPersistence, 
+	signOut, 
+	sendPasswordResetEmail } from "firebase/auth";
+const auth = getAuth();
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -392,10 +406,45 @@ function scoreTest() {
 	displayResults();
 }
 
+
+
 //Login
-function login() {
-	document.getElementById("LoginPage").classList.add("open");
+function togglePasswordVisability() {
+	if (document.getElementById("showPassword").checked) {
+		document.getElementById("PasswordField").type = "text";
+	} else {
+		document.getElementById("PasswordField").type = "password";
+	}
 }
+
+function toggleLoginPopup() {
+	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
+		document.getElementById("showPassword").checked = false;
+		document.getElementById("EmailField").value = ""
+		document.getElementById("PasswordField").value = ""
+		togglePasswordVisability();
+		document.getElementById("LoginPage").classList.add("open");
+	} else {
+		document.getElementById("LoginPage").classList.remove("open");
+	}
+}
+
+function signUp() {
+	email = document.getElementById("EmailField").value
+	password = document.getElementById("PasswordField").value
+	createUserWithEmailAndPassword(auth, email, password)
+	.then((userCredential) => {
+		// Signed up 
+		const user = userCredential.user;
+		// ...
+	})
+	.catch((error) => {
+		errorOnLogin("Sign Up")
+	});
+
+}
+
+
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -411,5 +460,6 @@ export {
   lastQuestion,
   displayResults,
   scoreTest,
-  login
+  toggleLoginPopup,
+  togglePasswordVisability
 };

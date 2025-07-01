@@ -16,11 +16,11 @@
         <p id="dates" style="text-align: center; flex-grow: 100;">
             <strong>100</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;|
             <strong>130</strong>&nbsp;days&nbsp;until&nbsp;ICDC</p>
-        <p id="LoginExternal" class="clickable" onclick="code.login()" style="text-align: center; margin-right: 1.5rem;"><u>Click to Login</u></p>
+        
+        <p id="LoginExternal" class="clickable" onclick="code.toggleLoginPopup()" style="text-align: center; margin-right: 1.5rem;"><u>Click to Log In</u></p>
     </div>
 
     <h2>A <i>Plantation High School DECA</i> Project</h2>
-
     <div class="bubble" id="BubbleHead">
         <div id="TestStart">
             <input id="URL" placeholder="Paste a DECA.org or DECA+ link here:">
@@ -87,8 +87,32 @@
     </div>
 
     <div class="popup" id="LoginPage">
-        <p>Line 1</p>
-        <p>2</p>
+        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem;" >Login</h2>
+            <p style="font-size: 1rem;" class="clickable" onclick="code.toggleLoginPopup()"><u>Close</u></p>
+
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <p style="margin-bottom: 0.5rem;">Email</p>
+            <input type="email" name="email" class="loginField" placeholder="Email" id="EmailField">
+
+            <p style="margin-bottom: 0.5rem;">Password</p>
+            <input type="password" name="password" class="loginField" placeholder="Password. Minimum 6 Characters" id="PasswordField">
+            <div style="display: flex; margin-top: -0.5rem;">
+                <input type="checkbox" name="showPassword" id="showPassword" class="clickable" onclick="code.togglePasswordVisability()"> 
+                <p style="font-size: 0.75rem;">Reveal Password</p>
+            </div>
+        </div>`
+        <div style="display: flex; justify-content: space-between; margin-top: 0.75rem;">
+            <button class="clickable">Sign Up</button>
+            <button class="clickable">Log In</button>
+        </div>
+         <div style="display: flex; justify-content: space-between; margin-top: 0.75rem;">
+            <p><em></em></p>
+            <p class="clickable"><u>Forgot Password</u></p>
+            
+        </div>
+        
     </div>
 
 </body>

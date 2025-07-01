@@ -474,6 +474,6 @@ export {
   displayResults,
   scoreTest,
   toggleLoginPopup,
-  togglePasswordVisability,
-  signUp
+  signUp,
+  togglePasswordVisability
 };

@@ -430,7 +430,7 @@ function togglePasswordVisability() {
 }
 
 function toggleLoginPopup() {
-	console.log(true);
+	console.log('true');
 	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
 		document.getElementById("showPassword").checked = false;
 		document.getElementById("EmailField").value = ""
@@ -459,7 +459,7 @@ function signUp() {
 }
 
 function die() {
-	console.log(false)
+	console.log("false")
 }
 
 

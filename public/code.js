@@ -441,20 +441,20 @@ function toggleLoginPopup() {
 	}
 }
 
-function registerUser() {
+function signUp() {
 	email = document.getElementById("EmailField").value
 	password = document.getElementById("PasswordField").value
 	console.log(email)
 	console.log(password)
-	createUserWithEmailAndPassword(auth, email, password)
-	.then((userCredential) => {
-		// Signed up 
-		const user = userCredential.user;
-		// ...
-	})
-	.catch((error) => {
-		errorOnLogin("Sign Up")
-	});
+	// createUserWithEmailAndPassword(auth, email, password)
+	// .then((userCredential) => {
+	// 	// Signed up 
+	// 	const user = userCredential.user;
+	// 	// ...
+	// })
+	// .catch((error) => {
+	// 	errorOnLogin("Sign Up")
+	// });
 }
 
 
@@ -475,5 +475,5 @@ export {
   scoreTest,
   toggleLoginPopup,
   togglePasswordVisability,
-  registerUser
+  signUp
 };

@@ -444,6 +444,8 @@ function toggleLoginPopup() {
 function signUp() {
 	email = document.getElementById("EmailField").value
 	password = document.getElementById("PasswordField").value
+	console.log(email)
+	console.log(password)
 	createUserWithEmailAndPassword(auth, email, password)
 	.then((userCredential) => {
 		// Signed up 

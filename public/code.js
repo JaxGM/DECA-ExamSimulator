@@ -430,6 +430,7 @@ function togglePasswordVisability() {
 }
 
 function toggleLoginPopup() {
+	console.log(true);
 	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
 		document.getElementById("showPassword").checked = false;
 		document.getElementById("EmailField").value = ""

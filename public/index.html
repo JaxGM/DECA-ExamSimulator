@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DECA Test Simulator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="src.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script type="module">
-        import './src.js'; // ensures window.code is populated
+        import * as code from './code.js';
+        window.code = code;
         window.addEventListener("load", () => {
             window.code.onStart();
         });
     </script>
+
 </head>
 
 <body>

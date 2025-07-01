@@ -9,17 +9,29 @@ let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
 
-// Init Firebase Stuff
+//Init Firebase Stuff
+import { initializeApp } from 'firebase/app';
+const firebaseConfig = {
+  apiKey: "AIzaSyCFxnV3RRKXDv9EccwAIAtjx8ey2L3OzqM",
+  authDomain: "deca-examsimulator.firebaseapp.com",
+  projectId: "deca-examsimulator",
+  storageBucket: "deca-examsimulator.firebasestorage.app",
+  messagingSenderId: "565902611634",
+  appId: "1:565902611634:web:a2bc18199ebae4d60f25ab"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 // Auth
-// import { getAuth, 
-// 	createUserWithEmailAndPassword, 
-// 	setPersistence, 
-// 	signInWithEmailAndPassword, 
-// 	browserSessionPersistence, 
-// 	signOut, 
-// 	sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-// const auth = getAuth();
+import { getAuth, 
+	createUserWithEmailAndPassword, 
+	setPersistence, 
+	signInWithEmailAndPassword, 
+	browserSessionPersistence, 
+	signOut, 
+	sendPasswordResetEmail } from "firebase/auth";
+const auth = getAuth();
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -429,20 +441,19 @@ function toggleLoginPopup() {
 	}
 }
 
-// function signUp() {
-// 	email = document.getElementById("EmailField").value
-// 	password = document.getElementById("PasswordField").value
-// 	createUserWithEmailAndPassword(auth, email, password)
-// 	.then((userCredential) => {
-// 		// Signed up 
-// 		const user = userCredential.user;
-// 		// ...
-// 	})
-// 	.catch((error) => {
-// 		errorOnLogin("Sign Up")
-// 	});
-
-// }
+function signUp() {
+	email = document.getElementById("EmailField").value
+	password = document.getElementById("PasswordField").value
+	createUserWithEmailAndPassword(auth, email, password)
+	.then((userCredential) => {
+		// Signed up 
+		const user = userCredential.user;
+		// ...
+	})
+	.catch((error) => {
+		errorOnLogin("Sign Up")
+	});
+}
 
 
 

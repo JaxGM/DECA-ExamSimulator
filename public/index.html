@@ -5,20 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DECA Test Simulator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- <script type="module">
-        import * as code from './code.js';
-        window.code = code;
-        window.addEventListener("load", () => {
-            window.code.onStart();
-        });
-    </script> -->
-
 </head>
 
-<body onload="onStart()">
-    <div id="Title">
+<body>
+    <div id="Title" onload="onStart()">
         <img src="Media/DECA-Logo.webp" alt="DECA Logo">
         <h1>DECA Test Simulator</h1>
         <p id="dates" style="text-align: center; flex-grow: 100;">
@@ -124,5 +114,6 @@
     </div>
 
     <script src="src.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

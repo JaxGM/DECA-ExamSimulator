@@ -457,6 +457,11 @@ function signUp() {
 	// });
 }
 
+function die() {
+	console.log(false)
+}
+
+
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -474,6 +479,7 @@ export {
   displayResults,
   scoreTest,
   toggleLoginPopup,
+  togglePasswordVisability,
   signUp,
-  togglePasswordVisability
+  die
 };

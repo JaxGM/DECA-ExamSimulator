@@ -12,14 +12,14 @@ let currentQ = 1;
 // Init Firebase Stuff
 
 // Auth
-import { getAuth, 
-	createUserWithEmailAndPassword, 
-	setPersistence, 
-	signInWithEmailAndPassword, 
-	browserSessionPersistence, 
-	signOut, 
-	sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-const auth = getAuth();
+// import { getAuth, 
+// 	createUserWithEmailAndPassword, 
+// 	setPersistence, 
+// 	signInWithEmailAndPassword, 
+// 	browserSessionPersistence, 
+// 	signOut, 
+// 	sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// const auth = getAuth();
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -429,20 +429,20 @@ function toggleLoginPopup() {
 	}
 }
 
-function signUp() {
-	email = document.getElementById("EmailField").value
-	password = document.getElementById("PasswordField").value
-	createUserWithEmailAndPassword(auth, email, password)
-	.then((userCredential) => {
-		// Signed up 
-		const user = userCredential.user;
-		// ...
-	})
-	.catch((error) => {
-		errorOnLogin("Sign Up")
-	});
+// function signUp() {
+// 	email = document.getElementById("EmailField").value
+// 	password = document.getElementById("PasswordField").value
+// 	createUserWithEmailAndPassword(auth, email, password)
+// 	.then((userCredential) => {
+// 		// Signed up 
+// 		const user = userCredential.user;
+// 		// ...
+// 	})
+// 	.catch((error) => {
+// 		errorOnLogin("Sign Up")
+// 	});
 
-}
+// }
 
 
 

@@ -441,7 +441,7 @@ function toggleLoginPopup() {
 	}
 }
 
-function signUp() {
+function registerUser() {
 	email = document.getElementById("EmailField").value
 	password = document.getElementById("PasswordField").value
 	console.log(email)
@@ -475,5 +475,5 @@ export {
   scoreTest,
   toggleLoginPopup,
   togglePasswordVisability,
-  signUp
+  registerUser
 };

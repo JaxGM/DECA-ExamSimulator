@@ -8,12 +8,12 @@
 </head>
 
 <body>
-    <div id="Title" onload="onStart()">
+    <div id="Title">
         <img src="Media/DECA-Logo.webp" alt="DECA Logo">
         <h1>DECA Test Simulator</h1>
         <p id="dates" style="text-align: center; flex-grow: 100;">
-            <strong>100</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;|
-            <strong>130</strong>&nbsp;days&nbsp;until&nbsp;ICDC</p>
+            <strong>TBD</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;|
+            <strong>TBD</strong>&nbsp;days&nbsp;until&nbsp;ICDC</p>
         
         <p id="LoginExternal" class="clickable" onclick="code.toggleLoginPopup()" style="text-align: center; margin-right: 1.5rem;"><u>Click to Log In</u></p>
     </div>
@@ -102,7 +102,7 @@
             </div>
         </div>`
         <div style="display: flex; justify-content: space-between; margin-top: 0.75rem;">
-            <button class="clickable">Sign Up</button>
+            <button class="clickable" onclick="code.signUp()">Sign Up</button>
             <button class="clickable">Log In</button>
         </div>
          <div style="display: flex; justify-content: space-between; margin-top: 0.75rem;">
@@ -113,7 +113,7 @@
         
     </div>
 
-    <script src="src.js" type="module"></script>
+    <script src="src.js" type="module" onload="onStart()"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

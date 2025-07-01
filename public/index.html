@@ -9,9 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script type="module">
-        import './src.js'; // ensures window.code is populated
+        import './src.js'; // ensures window.window.code is populated
         window.addEventListener("load", () => {
-            window.code.onStart();
+            window.window.code.onStart();
         });
     </script>
 </head>
@@ -24,15 +24,15 @@
             <strong>100</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;|
             <strong>130</strong>&nbsp;days&nbsp;until&nbsp;ICDC</p>
         
-        <p id="LoginExternal" class="clickable" onclick="code.toggleLoginPopup()" style="text-align: center; margin-right: 1.5rem;"><u>Click to Log In</u></p>
+        <p id="LoginExternal" class="clickable" onclick="window.code.toggleLoginPopup()" style="text-align: center; margin-right: 1.5rem;"><u>Click to Log In</u></p>
     </div>
 
     <h2>A <i>Plantation High School DECA</i> Project</h2>
     <div class="bubble" id="BubbleHead">
         <div id="TestStart">
             <input id="URL" placeholder="Paste a DECA.org or DECA+ link here:">
-            <button onclick="code.newExam('test')" id="newTest">New Test</button>
-            <button id="enterTraining" onclick="code.newExam('training')">Enter Training</button>
+            <button onclick="window.code.newExam('test')" id="newTest">New Test</button>
+            <button id="enterTraining" onclick="window.code.newExam('training')">Enter Training</button>
         </div>
 
         <div id="ExamHead">
@@ -56,12 +56,12 @@
         </div>
 
         <div id="controls" hidden>
-            <button onclick="code.lastQuestion()" id="advancement<">&lt;</button>
+            <button onclick="window.code.lastQuestion()" id="advancement<">&lt;</button>
             <p id="questionNumber">Question #</p>
-            <button onclick="code.nextQuestion()" id="advancement>">&gt;</button>
+            <button onclick="window.code.nextQuestion()" id="advancement>">&gt;</button>
 
-            <button id="reviewButton" onclick="code.callReview()">Review</button>
-            <button id="subScore" onclick="code.scoreTest()" hidden>Submit & Score</button>
+            <button id="reviewButton" onclick="window.code.callReview()">Review</button>
+            <button id="subScore" onclick="window.code.scoreTest()" hidden>Submit & Score</button>
         </div>
     </div>
 
@@ -74,7 +74,7 @@
             <p id="QuestionPhrase">1. You have been asked a question. Select the correct answer.</p>
             <div id="AnswerChoices">
                 <div id="AnswerChoice">
-                    <input type="radio" name="RadioButton" class="Radio" onclick="code.recordResponce()" id="AButton">
+                    <input type="radio" name="RadioButton" class="Radio" onclick="window.code.recordResponce()" id="AButton">
                     <p id="ALetter">&nbspA.&nbsp</p>
                     <p id="AText">recriutment</p>
                 </div>
@@ -96,7 +96,7 @@
     <div class="popup" id="LoginPage">
         <div style="display: flex; align-items: flex-start; justify-content: space-between;">
             <h2 style="font-size: 2rem; margin-bottom: 0.5rem;" >Login</h2>
-            <p style="font-size: 1rem;" class="clickable" onclick="code.toggleLoginPopup()"><u>Close</u></p>
+            <p style="font-size: 1rem;" class="clickable" onclick="window.code.toggleLoginPopup()"><u>Close</u></p>
 
         </div>
         <div style="display: flex; flex-direction: column;">
@@ -106,7 +106,7 @@
             <p style="margin-bottom: 0.5rem;">Password</p>
             <input type="password" name="password" class="loginField" placeholder="Password. Minimum 6 Characters" id="PasswordField">
             <div style="display: flex; margin-top: -0.5rem;">
-                <input type="checkbox" name="showPassword" id="showPassword" class="clickable" onclick="code.togglePasswordVisability()"> 
+                <input type="checkbox" name="showPassword" id="showPassword" class="clickable" onclick="window.code.togglePasswordVisability()"> 
                 <p style="font-size: 0.75rem;">Reveal Password</p>
             </div>
         </div>`

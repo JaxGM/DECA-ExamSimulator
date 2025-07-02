@@ -437,6 +437,7 @@ function togglePasswordVisability() {
 function toggleLoginPopup() {
 	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
 		document.getElementById("showPassword").checked = false;
+		document.getElementById("UsernameField").hidden = true;
 		document.getElementById("EmailField").value = ""
 		document.getElementById("PasswordField").value = ""
 		togglePasswordVisability();
@@ -479,7 +480,7 @@ function signUp() {
 			errorOnLogin("Sign Up")
 		};
 	} else {
-		document.getElementById("UsernameField").hidden = true;
+		document.getElementById("UsernameField").hidden = false;
 	}
 	
 }

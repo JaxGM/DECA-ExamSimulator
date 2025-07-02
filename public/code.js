@@ -3,14 +3,19 @@ import * as global from "./global.js";
 
 /////////////////////////////////////////////////////////////////////////
 
-// Init Variables
-let correct, data, cdcDate, icdcDate, incorrect, progress, questionSet, reviewSet, scoreChart, url, email, password;
-let currentQ = 1;
+// Initialize Firebase
 
-/////////////////////////////////////////////////////////////////////////
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  setPersistence, 
+  signInWithEmailAndPassword, 
+  browserSessionPersistence, 
+  signOut, 
+  sendPasswordResetEmail 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-//Init Firebase Stuff
-import { initializeApp } from 'firebase/app';
 const firebaseConfig = {
   apiKey: "AIzaSyCFxnV3RRKXDv9EccwAIAtjx8ey2L3OzqM",
   authDomain: "deca-examsimulator.firebaseapp.com",
@@ -20,18 +25,14 @@ const firebaseConfig = {
   appId: "1:565902611634:web:a2bc18199ebae4d60f25ab"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Auth
-import { getAuth, 
-	createUserWithEmailAndPassword, 
-	setPersistence, 
-	signInWithEmailAndPassword, 
-	browserSessionPersistence, 
-	signOut, 
-	sendPasswordResetEmail } from "firebase/auth";
 const auth = getAuth();
+
+/////////////////////////////////////////////////////////////////////////
+
+// Init Variables
+let correct, data, cdcDate, icdcDate, incorrect, progress, questionSet, reviewSet, scoreChart, url, email, password;
+let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -479,4 +480,4 @@ export {
   toggleLoginPopup,
   togglePasswordVisability,
   signUp
-};
+ };

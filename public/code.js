@@ -514,5 +514,6 @@ export {
   toggleLoginPopup,
   togglePasswordVisability,
   signUp,
-  logIn
+  logIn,
+  loadUser
  };

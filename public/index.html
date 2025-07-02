@@ -87,7 +87,7 @@
 
     <div class="popup" id="LoginPage">
         <div style="display: flex; align-items: flex-start; justify-content: space-between;">
-            <h2 style="font-size: 2rem; margin-bottom: 0.5rem;" onclick="code.loadUser()">Welcome!</h2>
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Welcome!</h2>
             <p style="font-size: 1rem;" class="clickable" onclick="code.toggleLoginPopup()"><u>Close</u></p>
 
         </div>
@@ -109,9 +109,8 @@
          <div style="display: flex; justify-content: space-between; margin-top: 0.75rem;">
             <p id="errorOnLogin"><em></em></p>
             <p class="clickable"><u>Forgot Password</u></p>
-            
         </div>
-        
+        <input type="text" name="text" class="loginField" placeholder="Usrname" id="UsernameField" hidden>
     </div>
 
     <script src="src.js" type="module" onload="code.onStart()"></script>

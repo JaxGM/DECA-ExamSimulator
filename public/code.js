@@ -463,16 +463,25 @@ function signUp() {
 	password = document.getElementById("PasswordField").value
 	console.log(email)
 	console.log(password)
-	createUserWithEmailAndPassword(auth, email, password)
-	.then((userCredential) => {
-		// Signed up 
-		const user = userCredential.user;
-		console.log(user)
-		loadUser()
-	})
-	.catch((error) => {
-		errorOnLogin("Sign Up")
-	});
+	if (document.getElementById("UsernameField").hidden) {
+		try {
+			createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				// Signed in  
+				const user = userCredential.user;
+				console.log(true)
+
+				// Assgin username
+
+				loadUser();
+			})
+		} catch (error) {
+			errorOnLogin("Sign Up")
+		};
+	} else {
+		document.getElementById("UsernameField").hidden = true;
+	}
+	
 }
 
 function logIn() {
@@ -490,7 +499,7 @@ function logIn() {
 			loadUser()
 		})
 	} catch (error) {
-		errorOnLogin("Sign In")
+		errorOnLogin("Log In")
 	};
 }
 
@@ -514,6 +523,5 @@ export {
   toggleLoginPopup,
   togglePasswordVisability,
   signUp,
-  logIn,
-  loadUser
+  logIn
  };

@@ -423,7 +423,7 @@ function scoreTest() {
 
 //Login
 function errorOnLogin(error) {  
-
+	console.log(error)
 
 }
 
@@ -461,7 +461,6 @@ function signUp() {
 	})
 	.catch((error) => {
 		errorOnLogin("Sign Up")
-		console.log(error)
 	});
 }
 
@@ -479,7 +478,6 @@ function logIn() {
 	})
 	.catch((error) => {
 		errorOnLogin("Sign In")
-		console.log(error)
 	});
 }
 

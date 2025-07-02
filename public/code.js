@@ -437,7 +437,7 @@ function togglePasswordVisability() {
 function toggleLoginPopup() {
 	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
 		document.getElementById("showPassword").checked = false;
-		document.getElementById("UsernameField").hidden = true;
+		document.getElementById("UsernameStuff").hidden = true;
 		document.getElementById("EmailField").value = ""
 		document.getElementById("PasswordField").value = ""
 		togglePasswordVisability();
@@ -464,7 +464,7 @@ function signUp() {
 	password = document.getElementById("PasswordField").value
 	console.log(email)
 	console.log(password)
-	if (!document.getElementById("UsernameField").hidden) {
+	if (!document.getElementById("UsernameStuff").hidden) {
 		try {
 			createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
@@ -480,7 +480,7 @@ function signUp() {
 			errorOnLogin("Sign Up")
 		};
 	} else {
-		document.getElementById("UsernameField").hidden = false;
+		document.getElementById("UsernameStuff").hidden = false;
 	}
 	
 }

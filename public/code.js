@@ -483,6 +483,7 @@ function logIn() {
 	.then((userCredential) => {
 		// Signed in  
 		const user = userCredential.user;
+		console.log(true)
 		loadUser()
 	})
 	.catch((error) => {

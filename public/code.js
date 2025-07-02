@@ -423,8 +423,7 @@ function scoreTest() {
 
 //Login
 function errorOnLogin(error) {  
-	console.log(error)
-
+	document.getElementById("errorOnLogin").innerHTML= "Error on " + error;
 }
 
 function togglePasswordVisability() {
@@ -442,9 +441,20 @@ function toggleLoginPopup() {
 		document.getElementById("PasswordField").value = ""
 		togglePasswordVisability();
 		document.getElementById("LoginPage").classList.add("open");
+		document.getAnimations("errorOnLogin").innerHTML = "";
 	} else {
 		document.getElementById("LoginPage").classList.remove("open");
 	}
+}
+
+function loadUser() {
+	toggleLoginPopup()
+	document.getElementById("LoginExternal").hidden = true;
+	document.getElementById("Username").hidden = false;
+	document.getElementById("Username").innerHTML = "<u>Username ⌄</u>";
+
+
+
 }
 
 function signUp() {
@@ -457,7 +467,7 @@ function signUp() {
 		// Signed up 
 		const user = userCredential.user;
 		console.log(user)
-		// ...
+		loadUser()
 	})
 	.catch((error) => {
 		errorOnLogin("Sign Up")
@@ -473,7 +483,7 @@ function logIn() {
 	.then((userCredential) => {
 		// Signed in  
 		const user = userCredential.user;
-		// ...
+		loadUser()
 	})
 	.catch((error) => {
 		errorOnLogin("Sign In")

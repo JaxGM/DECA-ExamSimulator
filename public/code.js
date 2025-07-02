@@ -430,7 +430,6 @@ function togglePasswordVisability() {
 }
 
 function toggleLoginPopup() {
-	console.log('true');
 	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
 		document.getElementById("showPassword").checked = false;
 		document.getElementById("EmailField").value = ""
@@ -447,20 +446,19 @@ function signUp() {
 	password = document.getElementById("PasswordField").value
 	console.log(email)
 	console.log(password)
-	// createUserWithEmailAndPassword(auth, email, password)
-	// .then((userCredential) => {
-	// 	// Signed up 
-	// 	const user = userCredential.user;
-	// 	// ...
-	// })
-	// .catch((error) => {
-	// 	errorOnLogin("Sign Up")
-	// });
+	createUserWithEmailAndPassword(auth, email, password)
+	.then((userCredential) => {
+		// Signed up 
+		const user = userCredential.user;
+		console.log(user)
+		// ...
+	})
+	.catch((error) => {
+		errorOnLogin("Sign Up")
+		console.log(error)
+	});
 }
 
-function die() {
-	console.log("false")
-}
 
 
 
@@ -480,6 +478,5 @@ export {
   scoreTest,
   toggleLoginPopup,
   togglePasswordVisability,
-  signUp,
-  die
+  signUp
 };

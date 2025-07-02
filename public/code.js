@@ -463,8 +463,7 @@ function signUp() {
 	password = document.getElementById("PasswordField").value
 	console.log(email)
 	console.log(password)
-	console.log(document.getElementById("UsernameField").hidden)
-	if (document.getElementById("UsernameField").hidden) {
+	if (!document.getElementById("UsernameField").hidden) {
 		try {
 			createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {

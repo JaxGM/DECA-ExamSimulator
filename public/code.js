@@ -448,6 +448,7 @@ function toggleLoginPopup() {
 }
 
 function loadUser() {
+	console.log("loading user")
 	toggleLoginPopup()
 	document.getElementById("LoginExternal").hidden = true;
 	document.getElementById("Username").hidden = false;
@@ -479,16 +480,18 @@ function logIn() {
 	password = document.getElementById("PasswordField").value
 	console.log(email)
 	console.log(password)
-	signInWithEmailAndPassword(auth, email, password)
-	.then((userCredential) => {
-		// Signed in  
-		const user = userCredential.user;
-		console.log(true)
-		loadUser()
-	})
-	.catch((error) => {
+	
+	try {
+		signInWithEmailAndPassword(auth, email, password)
+		.then((userCredential) => {
+			// Signed in  
+			const user = userCredential.user;
+			console.log(true)
+			loadUser()
+		})
+	} catch (error) {
 		errorOnLogin("Sign In")
-	});
+	};
 }
 
 

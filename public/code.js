@@ -422,6 +422,11 @@ function scoreTest() {
 
 
 //Login
+function errorOnLogin(error) {  
+
+
+}
+
 function togglePasswordVisability() {
 	if (document.getElementById("showPassword").checked) {
 		document.getElementById("PasswordField").type = "text";
@@ -460,6 +465,24 @@ function signUp() {
 	});
 }
 
+function logIn() {
+	email = document.getElementById("EmailField").value
+	password = document.getElementById("PasswordField").value
+	console.log(email)
+	console.log(password)
+	signInWithEmailAndPassword(auth, email, password)
+	.then((userCredential) => {
+		// Signed in  
+		const user = userCredential.user;
+		console.log(user)
+		// ...
+	})
+	.catch((error) => {
+		errorOnLogin("Sign In")
+		console.log(error)
+	});
+}
+
 
 
 
@@ -479,5 +502,6 @@ export {
   scoreTest,
   toggleLoginPopup,
   togglePasswordVisability,
-  signUp
+  signUp,
+  logIn
  };

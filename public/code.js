@@ -494,7 +494,7 @@ function signUp() {
 					const user = userCredential.user;
 					console.log(true);
 
-					set(ref(db, 'users/' + userId + '/info'), {
+					set(ref(database, 'users/' + userId + '/info'), {
 						username: username,
 						email: email,
 						date_joined : Date()

@@ -442,8 +442,9 @@ function scoreTest() {
 }
 
 //Login
-function errorOnLogin(error) {
+function errorOnLogin(error, actual) {
 	document.getElementById("errorOnLogin").innerHTML = "Error on " + error;
+	console.log(actual)
 }
 
 function togglePasswordVisability() {
@@ -505,7 +506,7 @@ function signUp() {
 					errorOnLogin("Sign Up");
 				});
 		} catch (error) {
-			errorOnLogin("Sign Up");
+			errorOnLogin("Sign Up", error);
 		}
 	} else {
 		document.getElementById("UsernameTitle").hidden = false;
@@ -528,7 +529,7 @@ function logIn() {
 				loadUser();
 			})
 			.catch((error) => {
-				errorOnLogin("Log In");
+				errorOnLogin("Log In", error);
 			});
 	} catch (error) {
 		errorOnLogin("Log In");

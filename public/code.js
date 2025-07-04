@@ -6,32 +6,53 @@ import * as global from "./global.js";
 // Initialize Firebase
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  setPersistence, 
-  signInWithEmailAndPassword, 
-  browserSessionPersistence, 
-  signOut, 
-  sendPasswordResetEmail 
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	setPersistence,
+	signInWithEmailAndPassword,
+	browserSessionPersistence,
+	signOut,
+	sendPasswordResetEmail,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+	getDatabase,
+	ref,
+	set,
+	child,
+	get,
+	remove,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCFxnV3RRKXDv9EccwAIAtjx8ey2L3OzqM",
-  authDomain: "deca-examsimulator.firebaseapp.com",
-  projectId: "deca-examsimulator",
-  storageBucket: "deca-examsimulator.firebasestorage.app",
-  messagingSenderId: "565902611634",
-  appId: "1:565902611634:web:a2bc18199ebae4d60f25ab"
+	apiKey: "AIzaSyCFxnV3RRKXDv9EccwAIAtjx8ey2L3OzqM",
+	authDomain: "deca-examsimulator.firebaseapp.com",
+	projectId: "deca-examsimulator",
+	storageBucket: "deca-examsimulator.firebasestorage.app",
+	messagingSenderId: "565902611634",
+	appId: "1:565902611634:web:a2bc18199ebae4d60f25ab",
+	databaseURL: "https://deca-examsimulator-default-rtdb.firebaseio.com",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const database = getDatabase(app);
 
 /////////////////////////////////////////////////////////////////////////
 
 // Init Variables
-let correct, data, cdcDate, icdcDate, incorrect, progress, questionSet, reviewSet, scoreChart, url, email, password;
+let correct,
+	data,
+	cdcDate,
+	icdcDate,
+	incorrect,
+	progress,
+	questionSet,
+	reviewSet,
+	scoreChart,
+	url,
+	email,
+	password;
 let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
@@ -419,11 +440,9 @@ function scoreTest() {
 	displayResults();
 }
 
-
-
 //Login
-function errorOnLogin(error) {  
-	document.getElementById("errorOnLogin").innerHTML= "Error on " + error;
+function errorOnLogin(error) {
+	document.getElementById("errorOnLogin").innerHTML = "Error on " + error;
 }
 
 function togglePasswordVisability() {
@@ -435,13 +454,13 @@ function togglePasswordVisability() {
 }
 
 function toggleLoginPopup() {
-	if (!(document.getElementById("LoginPage").classList.contains("open"))) {
+	if (!document.getElementById("LoginPage").classList.contains("open")) {
 		document.getElementById("showPassword").checked = false;
 		document.getElementById("UsernameTitle").hidden = true;
 		document.getElementById("UsernameField").hidden = true;
 		document.getElementById("UsernameField").hidden = true;
-		document.getElementById("EmailField").value = ""
-		document.getElementById("PasswordField").value = ""
+		document.getElementById("EmailField").value = "";
+		document.getElementById("PasswordField").value = "";
 		togglePasswordVisability();
 		document.getElementById("LoginPage").classList.add("open");
 		document.getAnimations("errorOnLogin").innerHTML = "";
@@ -451,87 +470,86 @@ function toggleLoginPopup() {
 }
 
 function loadUser() {
-	console.log("loading user")
-	toggleLoginPopup()
+	console.log("loading user");
+	toggleLoginPopup();
 	document.getElementById("LoginExternal").hidden = true;
 	document.getElementById("Username").hidden = false;
+	// username = 
 	document.getElementById("Username").innerHTML = "<u>Username ⌄</u>";
-
-
-
 }
 
 function signUp() {
-	email = document.getElementById("EmailField").value
-	password = document.getElementById("PasswordField").value
-	console.log(email)
-	console.log(password)
+	email = document.getElementById("EmailField").value;
+	password = document.getElementById("PasswordField").value;
+	username = document.getElementById("UsernameFielc").value;
+	console.log(email);
+	console.log(password);
 	if (!document.getElementById("UsernameTitle").hidden) {
 		try {
 			createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				// Signed in  
-				const user = userCredential.user;
-				console.log(true)
+				.then((userCredential) => {
+					// Signed in
+					const user = userCredential.user;
+					console.log(true);
 
-				// Assgin username
+					set(ref(db, 'users/' + userId + '/info'), {
+						username: username,
+						email: email,
+						date_joined : Date()
+					});
 
-				loadUser();
-			})
-			.catch ((error) => {
-				errorOnLogin("Sign Up")
-			})
+					loadUser();
+				})
+				.catch((error) => {
+					errorOnLogin("Sign Up");
+				});
 		} catch (error) {
-			errorOnLogin("Sign Up")
-		};
+			errorOnLogin("Sign Up");
+		}
 	} else {
 		document.getElementById("UsernameTitle").hidden = false;
 		document.getElementById("UsernameField").hidden = false;
 	}
-	
 }
 
 function logIn() {
-	email = document.getElementById("EmailField").value
-	password = document.getElementById("PasswordField").value
-	console.log(email)
-	console.log(password)
-	
+	email = document.getElementById("EmailField").value;
+	password = document.getElementById("PasswordField").value;
+	console.log(email);
+	console.log(password);
+
 	try {
 		signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			// Signed in  
-			const user = userCredential.user;
-			console.log(true)
-			loadUser()
-		})
-		.catch ((error) => {
-				errorOnLogin("Log In")
+			.then((userCredential) => {
+				// Signed in
+				const user = userCredential.user;
+				console.log(true);
+				loadUser();
 			})
+			.catch((error) => {
+				errorOnLogin("Log In");
+			});
 	} catch (error) {
-		errorOnLogin("Log In")
-	};
+		errorOnLogin("Log In");
+	}
 }
-
-
-
 
 /////////////////////////////////////////////////////////////////////////
 
 // Export the functions
 export {
-  onStart,
-  callQuestion,
-  recordResponce,
-  altAnswer,
-  newExam,
-  callReview,
-  nextQuestion,
-  lastQuestion,
-  displayResults,
-  scoreTest,
-  toggleLoginPopup,
-  togglePasswordVisability,
-  signUp,
-  logIn
- };
+	onStart,
+	callQuestion,
+	recordResponce,
+	altAnswer,
+	newExam,
+	callReview,
+	nextQuestion,
+	lastQuestion,
+	displayResults,
+	scoreTest,
+	toggleLoginPopup,
+	togglePasswordVisability,
+	signUp,
+	logIn,
+};

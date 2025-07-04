@@ -481,7 +481,7 @@ function loadUser() {
 function signUp() {
 	email = document.getElementById("EmailField").value;
 	password = document.getElementById("PasswordField").value;
-	username = document.getElementById("UsernameFielc").value;
+	username = document.getElementById("UsernameField").value;
 	console.log(email);
 	console.log(password);
 	if (!document.getElementById("UsernameTitle").hidden) {

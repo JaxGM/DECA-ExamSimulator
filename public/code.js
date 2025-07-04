@@ -52,6 +52,7 @@ let correct,
 	scoreChart,
 	url,
 	email,
+	username,
 	password;
 let currentQ = 1;
 

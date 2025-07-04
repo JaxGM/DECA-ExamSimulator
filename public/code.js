@@ -478,6 +478,9 @@ function signUp() {
 
 				loadUser();
 			})
+			.catch ((error) => {
+				errorOnLogin("Sign Up")
+			})
 		} catch (error) {
 			errorOnLogin("Sign Up")
 		};
@@ -502,6 +505,9 @@ function logIn() {
 			console.log(true)
 			loadUser()
 		})
+		.catch ((error) => {
+				errorOnLogin("Log In")
+			})
 	} catch (error) {
 		errorOnLogin("Log In")
 	};

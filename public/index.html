@@ -16,15 +16,15 @@
             <strong>TBD</strong>&nbsp;days&nbsp;until&nbsp;ICDC</p>
         
         <p id="LoginExternal" class="clickable" onclick="code.toggleLoginPopup()" style="text-align: center; margin-right: 1.5rem;"><u>Click to Log In</u></p>
-        <p id="Username" class="clickable" onclick="code.toggleLoginPopup()" style="text-align: center; margin-right: 1.5rem;" hidden><u>Username ⌄</u></p>
+        <p id="Username" class="clickable" onclick="code.toggleLoginPopup()" style="text-align: center;" hidden><u>Username ⌄</u></p>
     </div>
-
-    <h2>A <i>Plantation High School DECA</i> Project</h2>
+    <h2 style="margin-left: 0.5;">A <i>Plantation High School DECA</i> Project</h2>
+    
     <div class="bubble" id="BubbleHead">
         <div id="TestStart">
             <input id="URL" placeholder="Paste a DECA.org or DECA+ link here:">
             <button onclick="code.newExam('test')" id="newTest">New Test</button>
-            <button id="enterTraining" onclick="code.newExam('training')">Enter Training</button>
+            <button id="newTraining" onclick="code.newExam('training')">Enter Training</button>
         </div>
 
         <div id="ExamHead">
@@ -45,6 +45,13 @@
             <p id="ProgressPercent">0%</p>
             <progress id="ProgressBar" max="100" value="0"></progress>
             <p id="ProgressText">0/100</p>
+        </div>
+
+         <div id="TrainingControls" class="bar">
+            <p style="margin-right: 3rem; margin-left: 3rem;">These questions come from your Training Plan and will loop on shuffle.</p>
+            <button id="trainKeep" class="trainingButtion" style="background-color: rgb(135, 0, 0); opacity: 0.85;"><strong>Next - </strong>Keep in Training Plan</button>
+            <button id="trainRemove" class="trainingButtion" style="background-color: rgb(0, 135, 0); opacity: 0.85;" ><strong>Next - </strong>Remove from Training Plan</button>
+
         </div>
 
         <div id="controls" hidden>
@@ -114,6 +121,9 @@
             <p class="clickable"><u>Forgot Password</u></p>
         </div>
     </div>
+
+
+    <footer hidden>Project by Jackson Miller | Explore the project on <u><a href="https://github.com/JaxGM/DECA-ExamSimulator">Github</a></u></footer>
 
     <script src="src.js" type="module" onload="code.onStart()"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -126,7 +126,7 @@ button:active {
 
 #newTest,
 #newTraining {
-	width: 6rem;
+	width: 6.25rem;
 }
 
 
@@ -151,6 +151,23 @@ h3 {
 	align-items: center;
 
 	margin-top: -2rem;
+}
+
+#TrainingControls {
+	margin-top: 1rem !important;
+	font-family: sans-serif;
+}
+
+.trainingButtion {
+	flex: 1 1 0;
+	min-height: 2.5rem;
+	font-size: 1rem;
+	margin-left: 1rem; 
+	margin-right: 1rem;
+}
+
+.trainingButtion:hover {
+	opacity: 1 !important;
 }
 
 .reasoning {
@@ -188,6 +205,8 @@ progress {
 	margin-left: 1rem;
 	margin-right: 1rem;
 }
+
+
 
 #QuestionPhrase {
 	margin-bottom: 1.25rem;
@@ -290,4 +309,12 @@ progress {
 
 .loginField {
 	flex-grow: 10;
+}
+
+
+footer {
+    width: 100%;
+    text-align: center;
+    margin-top: 3rem;
+    position: static;
 }

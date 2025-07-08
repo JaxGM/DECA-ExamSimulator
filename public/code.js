@@ -53,7 +53,8 @@ let correct,
 	url,
 	email,
 	username,
-	password;
+	password,
+	status;
 let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
@@ -107,6 +108,8 @@ function onStart() {
 		.then((response) => response.json())
 		.then((response) => console.log(response))
 		.catch((err) => console.error(err));
+
+	status = "await";
 }
 
 // Optimized for TEST mode, pulls up the requested question
@@ -227,6 +230,7 @@ function newExam(type) {
 				}
 
 				if (data != "error" && type == "test" && Array.isArray(data)) {
+					status = "test";
 					document.getElementById("ExamType").innerText = data[0][0];
 
 					document.getElementById("ScoreChart").style.display =
@@ -296,8 +300,24 @@ function newExam(type) {
 				console.error(err);
 			});
 	} else if (type == "training") {
-		alert("Training is not avalible yet.");
-		return;
+		document.getElementById("ExamType").innerText = "Training Mode";
+
+		document.getElementById("newTraining").innerText = "...";
+		
+		// if not logged in, set newTraining to "NT" and pop up with login pannel.
+
+		//if status == test 
+
+		status = "training";
+
+		document.getElementById("newTraining").innerText = "End Trianing"
+		document.getElementById("mode").innerText = "20 Questions Avalible";
+
+
+		document.getElementById("Progress").hidden = true;
+		document.getElementById("ProgressPercent").hidden = true;
+		document.getElementById("ProgressBar").hidden = true;
+		document.getElementById("ProgressText").hidden = true;
 	}
 }
 
@@ -435,6 +455,8 @@ function scoreTest() {
 		document.getElementById("BButton" + i).disabled = true;
 		document.getElementById("CButton" + i).disabled = true;
 		document.getElementById("DButton" + i).disabled = true;
+
+		status = "await";
 	}
 
 	// Display Score

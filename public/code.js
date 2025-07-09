@@ -310,7 +310,7 @@ function newExam(type) {
 
 		status = "training";
 
-		document.getElementById("newTraining").innerText = "End Trianing"
+		document.getElementById("newTraining").innerText = "Enter Trianing"
 		document.getElementById("mode").innerText = "20 Questions Avalible";
 
 
@@ -318,6 +318,18 @@ function newExam(type) {
 		document.getElementById("ProgressPercent").hidden = true;
 		document.getElementById("ProgressBar").hidden = true;
 		document.getElementById("ProgressText").hidden = true;
+
+		document.getElementById("TrainingControls").hidden = false;
+		document.getElementById("TrainKeep").hidden = false;
+		document.getElementById("TrainRemove").hidden = false;
+		document.getElementById("TrainWords").hidden = false;
+
+		const temp = 0
+		
+		//Get training plan
+		// Pull training question from trainingPlan.
+
+
 	}
 }
 
@@ -498,7 +510,19 @@ function loadUser() {
 	toggleLoginPopup();
 	document.getElementById("LoginExternal").hidden = true;
 	document.getElementById("Username").hidden = false;
-	// username = 
+	
+	const dbRef = ref(getDatabase());
+	get(child(dbRef, `users/${userId}/info`)).then((snapshot) => {
+	if (snapshot.exists()) {
+		console.log(snapshot.val());
+	} else {
+		console.log("No data available");
+	}
+	}).catch((error) => {
+	console.error(error);
+	});
+
+	//username = 
 	document.getElementById("Username").innerHTML = "<u>Username ⌄</u>";
 }
 

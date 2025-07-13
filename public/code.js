@@ -509,9 +509,7 @@ function loadUser() {
 	document.getElementById("LoginExternal").hidden = true;
 	document.getElementById("Username").hidden = false;
 	
-	const dbRef = ref(getDatabase());
-
-	get(ref(db, 'username/' + user.uid + '/info/username'))
+	get(ref(database, 'username/' + user.uid + '/info/username'))
 	.then((snapshot) => {
 		if (snapshot.exists()) {
 		username = snapshot.val();

@@ -36,7 +36,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-const database = getDatabase(app);
+database = getDatabase(app);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -55,6 +55,7 @@ let correct,
 	username,
 	password,
 	status,
+	database,
 	user;
 let currentQ = 1;
 

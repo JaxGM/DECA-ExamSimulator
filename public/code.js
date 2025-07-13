@@ -517,13 +517,15 @@ function loadUser() {
 		} else {
 		username = "error"
 		}
+
+		document.getElementById("Username").innerHTML = "<u>"+username+" ⌄</u>";
+
 	})
 	.catch((error) => {
 		console.error(error);
 	});
 
 
-	document.getElementById("Username").innerHTML = "<u>"+username+" ⌄</u>";
 }
 
 function signUp() {

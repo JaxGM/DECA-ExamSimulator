@@ -54,7 +54,8 @@ let correct,
 	email,
 	username,
 	password,
-	status;
+	status,
+	user;
 let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
@@ -536,7 +537,7 @@ function signUp() {
 			createUserWithEmailAndPassword(auth, email, password)
 				.then((userCredential) => {
 					// Signed in
-					const user = userCredential.user;
+					user = userCredential.user;
 					console.log(true);
 
 					set(ref(database, 'users/' + user.uid + '/info'), {
@@ -569,7 +570,7 @@ function logIn() {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in
-				const user = userCredential.user;
+				user = userCredential.user;
 				console.log(true);
 				loadUser();
 			})

@@ -36,7 +36,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-let database = getDatabase(app);
+const database = getDatabase(app);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -498,7 +498,7 @@ function toggleLoginPopup() {
 		document.getElementById("PasswordField").value = "";
 		togglePasswordVisability();
 		document.getElementById("LoginPage").classList.add("open");
-		document.getAnimations("errorOnLogin").innerHTML = "";
+		document.getElementById("errorOnLogin").innerHTML = "";
 	} else {
 		document.getElementById("LoginPage").classList.remove("open");
 	}
@@ -510,22 +510,18 @@ function loadUser() {
 	document.getElementById("LoginExternal").hidden = true;
 	document.getElementById("Username").hidden = false;
 	
-	get(ref(database, 'username/' + user.uid + '/info/username'))
+	get(ref(database, 'username/' + user.uid + '/info/username')) // <-- use 'database' here
 	.then((snapshot) => {
-		if (snapshot.exists()) {
-		username = snapshot.val();
-		} else {
-		username = "error"
-		}
-
-		document.getElementById("Username").innerHTML = "<u>"+username+" ⌄</u>";
-
-	})
-	.catch((error) => {
-		console.error(error);
-	});
-
-
+    	if (snapshot.exists()) {
+            username = snapshot.val();
+        } else {
+            username = "error";
+        }
+        document.getElementById("Username").innerHTML = "<u>" + username + " ⌄</u>";
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
 function signUp() {

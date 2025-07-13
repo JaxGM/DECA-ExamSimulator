@@ -323,8 +323,6 @@ function newExam(type) {
 		document.getElementById("TrainKeep").hidden = false;
 		document.getElementById("TrainRemove").hidden = false;
 		document.getElementById("TrainWords").hidden = false;
-
-		const temp = 0
 		
 		//Get training plan
 		// Pull training question from trainingPlan.
@@ -522,8 +520,20 @@ function loadUser() {
 	console.error(error);
 	});
 
-	//username = 
-	document.getElementById("Username").innerHTML = "<u>Username ⌄</u>";
+	get(ref(db, 'username/' + user.uid + '/info/username'))
+	.then((snapshot) => {
+		if (snapshot.exists()) {
+		username = snapshot.val();
+		} else {
+		username = "error"
+		}
+	})
+	.catch((error) => {
+		console.error(error);
+	});
+
+
+	document.getElementById("Username").innerHTML = "<u>"+username+" ⌄</u>";
 }
 
 function signUp() {

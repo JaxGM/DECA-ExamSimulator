@@ -510,15 +510,6 @@ function loadUser() {
 	document.getElementById("Username").hidden = false;
 	
 	const dbRef = ref(getDatabase());
-	get(child(dbRef, `users/${userId}/info`)).then((snapshot) => {
-	if (snapshot.exists()) {
-		console.log(snapshot.val());
-	} else {
-		console.log("No data available");
-	}
-	}).catch((error) => {
-	console.error(error);
-	});
 
 	get(ref(db, 'username/' + user.uid + '/info/username'))
 	.then((snapshot) => {

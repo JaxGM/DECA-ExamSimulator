@@ -1,31 +1,29 @@
-Path Forward Notes (thx Copilot)
+next:
 
-1. Decide on Script Style:
-   - If you want to keep using classic scripts (no modules), remove all `import`/`export` from your JS files.
-   - Use the global `firebase` object by including Firebase CDN scripts in your HTML before your own scripts.
+- Color the correct and such in the grading thing
 
-2. Firebase Setup:
-   - In your HTML <head>:
-     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-     <script src="firebase.js"></script>
-   - In firebase.js, initialize Firebase using the global object (no imports/exports).
+----
 
-3. Function Accessibility:
-   - All functions will be global, so you can use them in HTML attributes like `onclick`, `onload`, etc.
+To do the training...
+1. import questions to "data"
+1.5. make a "no question" screen
+2. generate questions using the old code.
+3. Use next button function
+4. At end: reset using 1.
 
-4. If you ever want to use ES modules in the future:
-   - Use `type="module"` in your script tags.
-   - Use full CDN URLs for Firebase imports.
-   - Attach any functions you want to call from HTML to `window`.
+Pulling questions 
+   add:
+      a. selection check for each Q
+      b. end Test
+      b2. save questions to training plan
+      c. select all missed questions button
 
-5. Next Steps:
-   - Test your login and Firebase features with the classic setup.
-   - Refactor code for clarity and remove any unused imports/exports.
-   - Document any changes you make for future reference.
+---- 
+Training button should not work if not logged in
 
-6. When you return:
-   - Double-check that all Firebase features work as expected.
-   - Continue building out authentication or other features as needed.
+It also needs to turn off results
 
-Take a
+---
+
+login dropdown
+   For now: Log out

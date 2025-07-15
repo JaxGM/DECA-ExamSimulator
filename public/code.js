@@ -55,7 +55,8 @@ let correct,
 	username,
 	password,
 	status,
-	user;
+	user,
+	qualifyingButtons;
 let currentQ = 1;
 
 /////////////////////////////////////////////////////////////////////////
@@ -135,8 +136,14 @@ function recordResponce() {
 	console.log(incorrect);
 	console.log(correct);
 	//commit answer to data
+	console.log(currentQ + "is the current Q")
+	console.log("RadioButton" + currentQ)
+	console.log(document.getElementsByName("RadioButton" + currentQ))
+
 	qualifyingButtons = document.getElementsByName("RadioButton" + currentQ);
+
 	for (let i = 0; i < qualifyingButtons.length; i++) {
+		console.log(i)
 		if (qualifyingButtons[i].checked) {
 			if (data[currentQ][8] != true) {
 				data[currentQ][8] = true;
@@ -215,7 +222,7 @@ function newExam(type) {
 		url = document.getElementById("URL").value;
 
 		// DEBUG MODE
-		// url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
+		url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
 		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
 			method: "GET",
@@ -261,10 +268,10 @@ function newExam(type) {
 					for (let i = 1; i < data.length; i++) {
 						questionSet +=
 							`<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onclick="altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onclick="altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onclick="altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onclick="altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onclick="altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onclick="altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onclick="altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onclick="altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
+							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onClick="code.altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onClick="code.altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
+							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onClick="code.altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onClick="code.altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
+							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onClick="code.altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onClick="code.altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
+							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onClick="code.altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onClick="code.altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
 							`</div><p id="${i}Reasoning" class="reasoning" hidden></p></div>`;
 					}
 					document.getElementById("BubbleQuestion").innerHTML =
@@ -274,7 +281,7 @@ function newExam(type) {
 						'<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
 					for (let i = 1; i < data.length; i++) {
 						reviewSet +=
-							`<div id="rid${i}" class="reviewPart" onclick="callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+							`<div id="rid${i}" class="reviewPart" onClick="code.callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
 							`<div id="${i}ReviewChoiceA" class="ReviewChoice"><p id="${i}ALetterR">&nbspA.&nbsp</p><p id="${i}ATextR">${data[i][2]}</p></div>` +
 							`<div id="${i}ReviewChoiceB" class="ReviewChoice"><p id="${i}BLetterR">&nbspB.&nbsp</p><p id="${i}BTextR">${data[i][3]}</p></div>` +
 							`<div id="${i}ReviewChoiceC" class="ReviewChoice"><p id="${i}CLetterR">&nbspC.&nbsp</p><p id="${i}CTextR">${data[i][4]}</p></div>` +
@@ -507,8 +514,6 @@ function toggleLoginPopup() {
 function loadUser() {
 	console.log("loading user");
 	toggleLoginPopup();
-	document.getElementById("LoginExternal").hidden = true;
-	document.getElementById("Username").hidden = false;
 	
 	get(ref(database, 'users/' + user.uid + '/info/username')) // <-- use 'database' here
 	.then((snapshot) => {
@@ -517,7 +522,10 @@ function loadUser() {
         } else {
             username = "error";
         }
-        document.getElementById("Username").innerHTML = "<u>" + username + " ⌄</u>";
+        document.getElementById("Username").innerText = "" + username + "  ◀";
+		// ▼
+		document.getElementById("LoginExternal").hidden = true;
+		document.getElementById("Username").hidden = false;
     })
     .catch((error) => {
         console.error(error);

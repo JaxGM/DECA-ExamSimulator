@@ -108,18 +108,22 @@ function reset() {
 function onStart() {
 	reset();
 
-	const debugUsername = "jax_m@icloud.com"
-	const debugPassword = "bobbob"
+	// const debugUsername = "jax_m@icloud.com"
+	// const debugPassword = "bobbob"
 
-	signInWithEmailAndPassword(auth, debugUsername, debugPassword)
-		.then((userCredential) => {
-			// Signed in
-			user = userCredential.user;
-			console.log(true);
-			loadUser();
-		})
-	toggleLoginPopup();
+	// signInWithEmailAndPassword(auth, debugUsername, debugPassword)
+	// 	.then((userCredential) => {
+	// 		// Signed in
+	// 		user = userCredential.user;
+	// 		console.log(true);
+	// 		loadUser();
+	// 	})
+	// toggleLoginPopup();
 
+	document.getElementById("UsernameText").innerText = "" + "Debug" + "  ◀";	
+		document.getElementById("LoginExternal").hidden = true;
+		document.getElementById("Username").hidden = false;
+		loggedIn = true;
 
 	// Updates countdowns
 	dates();
@@ -560,7 +564,7 @@ function loadUser() {
 			} else {
 				username = "error";
 			}
-			document.getElementById("Username").innerText =
+			document.getElementById("UsernameText").innerText =
 				"" + username + "  ◀";
 			// ▼
 			document.getElementById("LoginExternal").hidden = true;

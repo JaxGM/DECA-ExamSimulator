@@ -207,6 +207,22 @@ progress {
 	font-size: 1.25rem;
 }
 
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content-container {
+	/* display: none; */
+	position: absolute;
+	z-index: 1;
+}
+
+.droupdown-content {
+	background-color: red;
+	flex-grow: 4;
+}
+
 .AnswerChoice {
 	display: flex;
 	align-items: baseline;

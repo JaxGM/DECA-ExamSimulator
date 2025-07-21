@@ -1,0 +1,21 @@
+(2)
+To do the training...
+1. import questions to "data"
+1.5. make a "no question" screen
+2. generate questions using the old code.
+3. Use next button function
+4. At end: reset using 1.
+
+
+(3)
+Pulling questions
+   add:
+      a. selection check for each Q
+      b. end Test
+      b2. save questions to training plan
+      c. select all missed questions button
+
+
+(1)
+login dropdown
+   For now: Log out

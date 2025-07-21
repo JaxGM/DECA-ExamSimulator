@@ -1,51 +1,5 @@
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>DECA Test Simulator</title>
-		<link rel="stylesheet" href="styles.css" />
-	</head>
-
-	<body>
-		<div id="Title">
-			<img src="Media/DECA-Logo.webp" alt="DECA Logo" />
-			<h1>DECA Exam Simulator</h1>
-			<p id="dates" style="text-align: center; flex-grow: 100">
-				<strong>TBD</strong
-				>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;|
-				<strong>TBD</strong>&nbsp;days&nbsp;until&nbsp;ICDC
-			</p>
-
-			<p
-				id="LoginExternal"
-				class="clickable"
-				onclick="code.toggleLoginPopup()"
-				style="text-align: center; margin-right: 1.5rem"
-			>
-				<u>Click to Log In</u>
-			</p>
-
-			<div id="Username">
-				<p
-					id="UsernameText"
-					class="clickable"
-					
-				>
-					<u>Username ⌄</u>
-				</p>
-				<div class="dropdown-content-container">
-					<p>Username</p>
-					<p class="dropdown-content">Logout</p>
-					<p class="dropdown-content">Bug</p>
-				</div>
-			</div>
-		</div>
-		<h2 style="margin-left: 0.5">
-			A <i>Plantation High School DECA</i> Project
-		</h2>
-
-		<div id="contnet">
-			<div class="bubble" id="BubbleHead">
+export const reset_content =
+    `<div class="bubble" id="BubbleHead">
 				<div id="TestStart">
 					<input
 						id="URL"
@@ -247,19 +201,4 @@
 					<p id="errorOnLogin"><em></em></p>
 					<p class="clickable"><u>Forgot Password</u></p>
 				</div>
-			</div>
-		</div>
-
-		<footer hidden>
-			Project by Jackson Miller | Explore the project on
-			<u
-				><a href="https://github.com/JaxGM/DECA-ExamSimulator"
-					>Github</a
-				></u
-			>
-		</footer>
-
-		<script src="src.js" type="module" onload="code.onStart()"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	</body>
-</html>
+			</div>`

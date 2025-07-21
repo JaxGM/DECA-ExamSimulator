@@ -1,32 +1,68 @@
 // Global Data
-import * as global from './global.js';
+import * as global from "./global.js";
+
+import { reset_content } from "./reset_content.js";
+
+/////////////////////////////////////////////////////////////////////////
+
+// Initialize Firebase
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	setPersistence,
+	signInWithEmailAndPassword,
+	browserSessionPersistence,
+	signOut,
+	sendPasswordResetEmail,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+	getDatabase,
+	ref,
+	set,
+	child,
+	get,
+	remove,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+	apiKey: "AIzaSyCFxnV3RRKXDv9EccwAIAtjx8ey2L3OzqM",
+	authDomain: "deca-examsimulator.firebaseapp.com",
+	projectId: "deca-examsimulator",
+	storageBucket: "deca-examsimulator.firebasestorage.app",
+	messagingSenderId: "565902611634",
+	appId: "1:565902611634:web:a2bc18199ebae4d60f25ab",
+	databaseURL: "https://deca-examsimulator-default-rtdb.firebaseio.com",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const database = getDatabase(app);
 
 /////////////////////////////////////////////////////////////////////////
 
 // Init Variables
-let cdcCountdown,
-	correct,
-	counter,
+let correct,
 	data,
-	icdcCountdown,
+	cdcDate,
+	icdcDate,
 	incorrect,
-	mode,
 	progress,
 	questionSet,
 	reviewSet,
 	scoreChart,
-	temp,
 	url,
-	examCatageory;
-let currentQ = 1;
+	email,
+	username,
+	password,
+	status,
+	user,
+	qualifyingButtons,
+	currentQ;
+let loggedIn = false;
 
 /////////////////////////////////////////////////////////////////////////
-
-import app from './firebase.js';
-console.log("Firebase app loaded:", app);
-
-/////////////////////////////////////////////////////////////////////////
-
 
 // Calculates and displays the countdown to CDC testing and ICDC testing
 function dates() {
@@ -35,38 +71,60 @@ function dates() {
 
 	// CDC
 	try {
-		global.cdcDate = Math.round(
+		cdcDate = Math.round(
 			(new Date(global.cdcDate).setHours(0, 0, 0, 0) - today) /
 				(1000 * 60 * 60 * 24)
 		);
-		global.cdcDate = isNaN(global.cdcDate) ? "TBD" : global.cdcDate;
+		cdcDate = isNaN(cdcDate) ? "TBD" : cdcDate;
 	} catch (error) {
-		global.cdcDate = "TBD";
+		cdcDate = "TBD";
 	}
 
 	// ICDC
 	try {
-		global.icdcDate = Math.round(
+		icdcDate = Math.round(
 			(new Date(global.icdcDate).setHours(0, 0, 0, 0) - today) /
 				(1000 * 60 * 60 * 24)
 		);
-		global.icdcDate = isNaN(global.icdcDate) ? "TBD" : global.icdcDate;
+		icdcDate = isNaN(icdcDate) ? "TBD" : icdcDate;
 	} catch (error) {
 		global.icdcDate = "TBD";
-		console.log(global.icdcDate);
+		console.log(icdcDate);
 	}
 
 	// Push
 	document.getElementById("dates").innerHTML =
 		"<strong>" +
-		global.cdcDate +
+		cdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;Testing&nbsp;| <strong>" +
-		global.icdcDate +
+		icdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;ICDC";
 }
 
 // Start Code
+function reset() {
+	document.getElementById("contnet").innerHTML = reset_content;
+}
 function onStart() {
+	reset();
+
+	// const debugUsername = "jax_m@icloud.com"
+	// const debugPassword = "bobbob"
+
+	// signInWithEmailAndPassword(auth, debugUsername, debugPassword)
+	// 	.then((userCredential) => {
+	// 		// Signed in
+	// 		user = userCredential.user;
+	// 		console.log(true);
+	// 		loadUser();
+	// 	})
+	// toggleLoginPopup();
+
+	document.getElementById("UsernameText").innerText = "" + "Debug" + "  ◀";	
+		document.getElementById("LoginExternal").hidden = true;
+		document.getElementById("Username").hidden = false;
+		loggedIn = true;
+
 	// Updates countdowns
 	dates();
 
@@ -77,6 +135,8 @@ function onStart() {
 		.then((response) => response.json())
 		.then((response) => console.log(response))
 		.catch((err) => console.error(err));
+
+	status = "await";
 }
 
 // Optimized for TEST mode, pulls up the requested question
@@ -101,8 +161,14 @@ function recordResponce() {
 	console.log(incorrect);
 	console.log(correct);
 	//commit answer to data
+	console.log(currentQ + "is the current Q");
+	console.log("RadioButton" + currentQ);
+	console.log(document.getElementsByName("RadioButton" + currentQ));
+
 	qualifyingButtons = document.getElementsByName("RadioButton" + currentQ);
-	for (i = 0; i < qualifyingButtons.length; i++) {
+
+	for (let i = 0; i < qualifyingButtons.length; i++) {
+		console.log(i);
 		if (qualifyingButtons[i].checked) {
 			if (data[currentQ][8] != true) {
 				data[currentQ][8] = true;
@@ -168,22 +234,21 @@ function recordResponce() {
 }
 
 function altAnswer(q, a) {
-	document.getElementById(a+'Button'+q).click()
+	document.getElementById(a + "Button" + q).click();
 }
 
 // Activates the core functionality of the program
 function newExam(type) {
-
 	// Functionality is currenlty only enabled for TEST, not TRAINING.
 	if (type == "test") {
 		document.getElementById("newTest").innerText = "···";
 
 		// Process Exam
 		url = document.getElementById("URL").value;
-		
-		// DEBUG MODE
-		// url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
+		// DEBUG MODE
+		url =
+			"https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
 		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
 			method: "GET",
@@ -199,21 +264,26 @@ function newExam(type) {
 				}
 
 				if (data != "error" && type == "test" && Array.isArray(data)) {
+					status = "test";
 					document.getElementById("ExamType").innerText = data[0][0];
 
-					document.getElementById("ScoreChart").style.display = "none";
+					document.getElementById("ScoreChart").style.display =
+						"none";
 
 					document.getElementById("newTest").innerText = "New Test";
 
-					document.getElementById("reviewButton").innerText = "Review";
+					document.getElementById("reviewButton").innerText =
+						"Review";
 
 					document.getElementById("mode").innerText = "Testing Mode";
 					correct = 0;
 					incorrect = 0;
 					progress = 0;
-					document.getElementById("ProgressPercent").innerText = progress + "%";
+					document.getElementById("ProgressPercent").innerText =
+						progress + "%";
 					document.getElementById("ProgressBar").value = progress;
-					document.getElementById("ProgressText").innerText = progress + "/100";
+					document.getElementById("ProgressText").innerText =
+						progress + "/100";
 
 					document.getElementById("Progress").hidden = false;
 					document.getElementById("ProgressPercent").hidden = false;
@@ -222,31 +292,37 @@ function newExam(type) {
 
 					questionSet = "";
 					for (let i = 1; i < data.length; i++) {
-						questionSet += `<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onclick="altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onclick="altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onclick="altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onclick="altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onclick="altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onclick="altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onclick="recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onclick="altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onclick="altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
+						questionSet +=
+							`<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+							`<div id="${i}AnswerChoiceA" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onClick="code.altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onClick="code.altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
+							`<div id="${i}AnswerChoiceB" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onClick="code.altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onClick="code.altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
+							`<div id="${i}AnswerChoiceC" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onClick="code.altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onClick="code.altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
+							`<div id="${i}AnswerChoiceD" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onClick="code.altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onClick="code.altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
 							`</div><p id="${i}Reasoning" class="reasoning" hidden></p></div>`;
 					}
-					document.getElementById("BubbleQuestion").innerHTML = questionSet;
+					document.getElementById("BubbleQuestion").innerHTML =
+						questionSet;
 
-					reviewSet = '<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
+					reviewSet =
+						'<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
 					for (let i = 1; i < data.length; i++) {
-						reviewSet += `<div id="rid${i}" class="reviewPart" onclick="callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+						reviewSet +=
+							`<div id="rid${i}" class="reviewPart" onClick="code.callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
 							`<div id="${i}ReviewChoiceA" class="ReviewChoice"><p id="${i}ALetterR">&nbspA.&nbsp</p><p id="${i}ATextR">${data[i][2]}</p></div>` +
 							`<div id="${i}ReviewChoiceB" class="ReviewChoice"><p id="${i}BLetterR">&nbspB.&nbsp</p><p id="${i}BTextR">${data[i][3]}</p></div>` +
 							`<div id="${i}ReviewChoiceC" class="ReviewChoice"><p id="${i}CLetterR">&nbspC.&nbsp</p><p id="${i}CTextR">${data[i][4]}</p></div>` +
 							`<div id="${i}ReviewChoiceD" class="ReviewChoice"><p id="${i}DLetterR">&nbspD.&nbsp</p><p id="${i}DTextR">${data[i][5]}</p></div>` +
 							`</div></div>`;
 					}
-					document.getElementById("BubbleReveiw").innerHTML = reviewSet;
+					document.getElementById("BubbleReveiw").innerHTML =
+						reviewSet;
 
 					document.getElementById("controls").hidden = false;
-					document.getElementById("controls").className = "controlsON";
+					document.getElementById("controls").className =
+						"controlsON";
 
+					currentQ = 1;
 					callQuestion(1);
-
 				} else {
 					//error out
 					document.getElementById("newTest").innerText = "New Test";
@@ -259,8 +335,36 @@ function newExam(type) {
 				console.error(err);
 			});
 	} else if (type == "training") {
-		alert("Training is not avalible yet.");
-		return;
+		if (loggedIn) {
+			reset();
+			document.getElementById("ExamType").innerText = "Training Mode";
+
+			document.getElementById("newTraining").innerText = "...";
+
+			// if not logged in, set newTraining to "NT" and pop up with login pannel.
+
+			//if status == test
+
+			status = "training";
+
+			document.getElementById("newTraining").innerText = "Enter Trianing";
+			document.getElementById("mode").innerText = "20 Questions Avalible";
+
+			document.getElementById("Progress").hidden = true;
+			document.getElementById("ProgressPercent").hidden = true;
+			document.getElementById("ProgressBar").hidden = true;
+			document.getElementById("ProgressText").hidden = true;
+
+			document.getElementById("TrainingControls").hidden = false;
+			document.getElementById("TrainKeep").hidden = false;
+			document.getElementById("TrainRemove").hidden = false;
+			document.getElementById("TrainWords").hidden = false;
+
+			//Get training plan
+			// Pull training question from trainingPlan.
+		} else {
+			toggleLoginPopup();
+		}
 	}
 }
 
@@ -358,28 +462,41 @@ function scoreTest() {
 
 	document.getElementById("reviewButton").innerText = "Results";
 
-	for (i = 1; i <= 100; i++) {
+	for (let i = 1; i <= 100; i++) {
 		// Score
 
 		// Set Red     // Set Green      // Set Blue
 		if (data[i][8]) {
 			if (data[i][9] == data[i][6]) {
-				document.getElementById(
-					i + "ReviewChoice" + data[i][9]
-				).className = "greenRihgt";
+				document
+					.getElementById(i + "ReviewChoice" + data[i][9])
+					.classList.add("greenRight");
+				document
+					.getElementById(i + "AnswerChoice" + data[i][9])
+					.classList.add("greenRight");
 				correct = correct + 1;
 			} else if (data[i][9] != data[i][6]) {
-				document.getElementById(
-					i + "ReviewChoice" + data[i][9]
-				).className = "redWrong";
-				document.getElementById(
-					i + "ReviewChoice" + data[i][6]
-				).className = "actualAnswer";
+				document
+					.getElementById(i + "ReviewChoice" + data[i][9])
+					.classList.add("redWrong");
+				document
+					.getElementById(i + "AnswerChoice" + data[i][9])
+					.classList.add("redWrong");
+				document
+					.getElementById(i + "ReviewChoice" + data[i][6])
+					.classList.add("actualAnswer");
+				document
+					.getElementById(i + "AnswerChoice" + data[i][6])
+					.classList.add("actualAnswer");
 				incorrect = incorrect + 1;
 			}
 		} else {
-			document.getElementById(i + "ReviewChoice" + data[i][6]).className =
-				"actualAnswer";
+			document
+				.getElementById(i + "ReviewChoice" + data[i][6])
+				.classList.add("actualAnswer");
+			document
+				.getElementById(i + "AnswerChoice" + data[i][6])
+				.classList.add("actualAnswer");
 		}
 
 		// Add description
@@ -398,8 +515,139 @@ function scoreTest() {
 		document.getElementById("BButton" + i).disabled = true;
 		document.getElementById("CButton" + i).disabled = true;
 		document.getElementById("DButton" + i).disabled = true;
+
+		status = "await";
 	}
 
 	// Display Score
 	displayResults();
 }
+
+//Login
+function errorOnLogin(error, actual) {
+	document.getElementById("errorOnLogin").innerHTML = "Error on " + error;
+	console.log(actual);
+}
+
+function togglePasswordVisability() {
+	if (document.getElementById("showPassword").checked) {
+		document.getElementById("PasswordField").type = "text";
+	} else {
+		document.getElementById("PasswordField").type = "password";
+	}
+}
+
+function toggleLoginPopup() {
+	if (!document.getElementById("LoginPage").classList.contains("open")) {
+		document.getElementById("showPassword").checked = false;
+		document.getElementById("UsernameTitle").hidden = true;
+		document.getElementById("UsernameField").hidden = true;
+		document.getElementById("UsernameField").hidden = true;
+		document.getElementById("EmailField").value = "";
+		document.getElementById("PasswordField").value = "";
+		togglePasswordVisability();
+		document.getElementById("LoginPage").classList.add("open");
+		document.getElementById("errorOnLogin").innerHTML = "";
+	} else {
+		document.getElementById("LoginPage").classList.remove("open");
+	}
+}
+
+function loadUser() {
+	console.log("loading user");
+	toggleLoginPopup();
+
+	get(ref(database, "users/" + user.uid + "/info/username")) // <-- use 'database' here
+		.then((snapshot) => {
+			if (snapshot.exists()) {
+				username = snapshot.val();
+			} else {
+				username = "error";
+			}
+			document.getElementById("UsernameText").innerText =
+				"" + username + "  ◀";
+			// ▼
+			document.getElementById("LoginExternal").hidden = true;
+			document.getElementById("Username").hidden = false;
+			loggedIn = true;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
+
+function signUp() {
+	email = document.getElementById("EmailField").value;
+	password = document.getElementById("PasswordField").value;
+	username = document.getElementById("UsernameField").value;
+	console.log(email);
+	console.log(password);
+	if (!document.getElementById("UsernameTitle").hidden) {
+		try {
+			createUserWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					// Signed in
+					user = userCredential.user;
+					console.log(true);
+
+					set(ref(database, "users/" + user.uid + "/info"), {
+						username: username,
+						email: email,
+						date_joined: new Date().toISOString(),
+					});
+
+					loadUser();
+				})
+				.catch((error) => {
+					errorOnLogin("Sign Up");
+				});
+		} catch (error) {
+			errorOnLogin("Sign Up", error);
+		}
+	} else {
+		document.getElementById("UsernameTitle").hidden = false;
+		document.getElementById("UsernameField").hidden = false;
+	}
+}
+
+function logIn() {
+	email = document.getElementById("EmailField").value;
+	password = document.getElementById("PasswordField").value;
+	console.log(email);
+	console.log(password);
+
+	try {
+		signInWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				// Signed in
+				user = userCredential.user;
+				console.log(true);
+				loadUser();
+			})
+			.catch((error) => {
+				errorOnLogin("Log In", error);
+			});
+	} catch (error) {
+		errorOnLogin("Log In");
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+// Export the functions
+export {
+	onStart,
+	callQuestion,
+	recordResponce,
+	altAnswer,
+	newExam,
+	callReview,
+	nextQuestion,
+	lastQuestion,
+	displayResults,
+	scoreTest,
+	toggleLoginPopup,
+	togglePasswordVisability,
+	signUp,
+	logIn,
+};

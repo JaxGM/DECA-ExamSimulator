@@ -1,6 +1,8 @@
 // Global Data
 import * as global from "./global.js";
 
+import { reset_content } from "./reset_content.js";
+
 /////////////////////////////////////////////////////////////////////////
 
 // Initialize Firebase
@@ -56,8 +58,9 @@ let correct,
 	password,
 	status,
 	user,
-	qualifyingButtons;
-let currentQ = 1;
+	qualifyingButtons,
+	currentQ;
+let loggedIn = false;
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -99,7 +102,25 @@ function dates() {
 }
 
 // Start Code
+function reset() {
+	document.getElementById("contnet").innerHTML = reset_content;
+}
 function onStart() {
+	reset();
+
+	const debugUsername = "jax_m@icloud.com"
+	const debugPassword = "bobbob"
+
+	signInWithEmailAndPassword(auth, debugUsername, debugPassword)
+		.then((userCredential) => {
+			// Signed in
+			user = userCredential.user;
+			console.log(true);
+			loadUser();
+		})
+	toggleLoginPopup();
+
+
 	// Updates countdowns
 	dates();
 
@@ -136,14 +157,14 @@ function recordResponce() {
 	console.log(incorrect);
 	console.log(correct);
 	//commit answer to data
-	console.log(currentQ + "is the current Q")
-	console.log("RadioButton" + currentQ)
-	console.log(document.getElementsByName("RadioButton" + currentQ))
+	console.log(currentQ + "is the current Q");
+	console.log("RadioButton" + currentQ);
+	console.log(document.getElementsByName("RadioButton" + currentQ));
 
 	qualifyingButtons = document.getElementsByName("RadioButton" + currentQ);
 
 	for (let i = 0; i < qualifyingButtons.length; i++) {
-		console.log(i)
+		console.log(i);
 		if (qualifyingButtons[i].checked) {
 			if (data[currentQ][8] != true) {
 				data[currentQ][8] = true;
@@ -222,7 +243,8 @@ function newExam(type) {
 		url = document.getElementById("URL").value;
 
 		// DEBUG MODE
-		url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
+		url =
+			"https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
 		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
 			method: "GET",
@@ -268,10 +290,10 @@ function newExam(type) {
 					for (let i = 1; i < data.length; i++) {
 						questionSet +=
 							`<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onClick="code.altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onClick="code.altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onClick="code.altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onClick="code.altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onClick="code.altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onClick="code.altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
-							`<div id="AnswerChoice"><input type="radio" class="Radio" onClick="code.recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onClick="code.altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onClick="code.altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
+							`<div id="${i}AnswerChoiceA" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onClick="code.altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onClick="code.altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
+							`<div id="${i}AnswerChoiceB" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onClick="code.altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onClick="code.altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
+							`<div id="${i}AnswerChoiceC" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onClick="code.altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onClick="code.altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
+							`<div id="${i}AnswerChoiceD" class="Clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onClick="code.altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onClick="code.altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
 							`</div><p id="${i}Reasoning" class="reasoning" hidden></p></div>`;
 					}
 					document.getElementById("BubbleQuestion").innerHTML =
@@ -295,6 +317,7 @@ function newExam(type) {
 					document.getElementById("controls").className =
 						"controlsON";
 
+					currentQ = 1;
 					callQuestion(1);
 				} else {
 					//error out
@@ -308,34 +331,36 @@ function newExam(type) {
 				console.error(err);
 			});
 	} else if (type == "training") {
-		document.getElementById("ExamType").innerText = "Training Mode";
+		if (loggedIn) {
+			reset();
+			document.getElementById("ExamType").innerText = "Training Mode";
 
-		document.getElementById("newTraining").innerText = "...";
-		
-		// if not logged in, set newTraining to "NT" and pop up with login pannel.
+			document.getElementById("newTraining").innerText = "...";
 
-		//if status == test 
+			// if not logged in, set newTraining to "NT" and pop up with login pannel.
 
-		status = "training";
+			//if status == test
 
-		document.getElementById("newTraining").innerText = "Enter Trianing"
-		document.getElementById("mode").innerText = "20 Questions Avalible";
+			status = "training";
 
+			document.getElementById("newTraining").innerText = "Enter Trianing";
+			document.getElementById("mode").innerText = "20 Questions Avalible";
 
-		document.getElementById("Progress").hidden = true;
-		document.getElementById("ProgressPercent").hidden = true;
-		document.getElementById("ProgressBar").hidden = true;
-		document.getElementById("ProgressText").hidden = true;
+			document.getElementById("Progress").hidden = true;
+			document.getElementById("ProgressPercent").hidden = true;
+			document.getElementById("ProgressBar").hidden = true;
+			document.getElementById("ProgressText").hidden = true;
 
-		document.getElementById("TrainingControls").hidden = false;
-		document.getElementById("TrainKeep").hidden = false;
-		document.getElementById("TrainRemove").hidden = false;
-		document.getElementById("TrainWords").hidden = false;
-		
-		//Get training plan
-		// Pull training question from trainingPlan.
+			document.getElementById("TrainingControls").hidden = false;
+			document.getElementById("TrainKeep").hidden = false;
+			document.getElementById("TrainRemove").hidden = false;
+			document.getElementById("TrainWords").hidden = false;
 
-
+			//Get training plan
+			// Pull training question from trainingPlan.
+		} else {
+			toggleLoginPopup();
+		}
 	}
 }
 
@@ -439,22 +464,35 @@ function scoreTest() {
 		// Set Red     // Set Green      // Set Blue
 		if (data[i][8]) {
 			if (data[i][9] == data[i][6]) {
-				document.getElementById(
-					i + "ReviewChoice" + data[i][9]
-				).className = "greenRihgt";
+				document
+					.getElementById(i + "ReviewChoice" + data[i][9])
+					.classList.add("greenRight");
+				document
+					.getElementById(i + "AnswerChoice" + data[i][9])
+					.classList.add("greenRight");
 				correct = correct + 1;
 			} else if (data[i][9] != data[i][6]) {
-				document.getElementById(
-					i + "ReviewChoice" + data[i][9]
-				).className = "redWrong";
-				document.getElementById(
-					i + "ReviewChoice" + data[i][6]
-				).className = "actualAnswer";
+				document
+					.getElementById(i + "ReviewChoice" + data[i][9])
+					.classList.add("redWrong");
+				document
+					.getElementById(i + "AnswerChoice" + data[i][9])
+					.classList.add("redWrong");
+				document
+					.getElementById(i + "ReviewChoice" + data[i][6])
+					.classList.add("actualAnswer");
+				document
+					.getElementById(i + "AnswerChoice" + data[i][6])
+					.classList.add("actualAnswer");
 				incorrect = incorrect + 1;
 			}
 		} else {
-			document.getElementById(i + "ReviewChoice" + data[i][6]).className =
-				"actualAnswer";
+			document
+				.getElementById(i + "ReviewChoice" + data[i][6])
+				.classList.add("actualAnswer");
+			document
+				.getElementById(i + "AnswerChoice" + data[i][6])
+				.classList.add("actualAnswer");
 		}
 
 		// Add description
@@ -484,7 +522,7 @@ function scoreTest() {
 //Login
 function errorOnLogin(error, actual) {
 	document.getElementById("errorOnLogin").innerHTML = "Error on " + error;
-	console.log(actual)
+	console.log(actual);
 }
 
 function togglePasswordVisability() {
@@ -514,22 +552,24 @@ function toggleLoginPopup() {
 function loadUser() {
 	console.log("loading user");
 	toggleLoginPopup();
-	
-	get(ref(database, 'users/' + user.uid + '/info/username')) // <-- use 'database' here
-	.then((snapshot) => {
-    	if (snapshot.exists()) {
-            username = snapshot.val();
-        } else {
-            username = "error";
-        }
-        document.getElementById("Username").innerText = "" + username + "  ◀";
-		// ▼
-		document.getElementById("LoginExternal").hidden = true;
-		document.getElementById("Username").hidden = false;
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+
+	get(ref(database, "users/" + user.uid + "/info/username")) // <-- use 'database' here
+		.then((snapshot) => {
+			if (snapshot.exists()) {
+				username = snapshot.val();
+			} else {
+				username = "error";
+			}
+			document.getElementById("Username").innerText =
+				"" + username + "  ◀";
+			// ▼
+			document.getElementById("LoginExternal").hidden = true;
+			document.getElementById("Username").hidden = false;
+			loggedIn = true;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 }
 
 function signUp() {
@@ -546,10 +586,10 @@ function signUp() {
 					user = userCredential.user;
 					console.log(true);
 
-					set(ref(database, 'users/' + user.uid + '/info'), {
+					set(ref(database, "users/" + user.uid + "/info"), {
 						username: username,
 						email: email,
-						date_joined : new Date().toISOString()
+						date_joined: new Date().toISOString(),
 					});
 
 					loadUser();

@@ -129,7 +129,6 @@ button:active {
 	width: 6.25rem;
 }
 
-
 #ExamHead {
 	display: flex;
 	align-items: baseline;
@@ -162,7 +161,7 @@ h3 {
 	flex: 1 1 0;
 	min-height: 2.5rem;
 	font-size: 1rem;
-	margin-left: 1rem; 
+	margin-left: 1rem;
 	margin-right: 1rem;
 }
 
@@ -190,10 +189,6 @@ h3 {
 	margin-right: 0.5rem;
 }
 
-.radio:hover {
-	cursor: hand;
-}
-
 #reviewButton {
 	margin-left: 0.75rem;
 }
@@ -206,15 +201,13 @@ progress {
 	margin-right: 1rem;
 }
 
-
-
 #QuestionPhrase {
 	margin-bottom: 1.25rem;
 	margin-left: 0.5rem;
 	font-size: 1.25rem;
 }
 
-#AnswerChoice {
+.AnswerChoice {
 	display: flex;
 	align-items: baseline;
 	margin-top: -1.25rem;
@@ -237,32 +230,14 @@ progress {
 
 .redWrong {
 	color: rgb(234, 42, 42);
-
-	display: flex;
-	align-items: baseline;
-	margin-top: -1.25rem;
-	margin-left: 1rem;
-	font-size: 1rem;
 }
 
-.greenRihgt {
+.greenRight {
 	color: rgb(43, 188, 21);
-
-	display: flex;
-	align-items: baseline;
-	margin-top: -1.25rem;
-	margin-left: 1rem;
-	font-size: 1rem;
 }
 
 .actualAnswer {
 	color: rgb(54, 162, 235);
-
-	display: flex;
-	align-items: baseline;
-	margin-top: -1.25rem;
-	margin-left: 1rem;
-	font-size: 1rem;
 }
 
 .clickable:hover {
@@ -283,7 +258,7 @@ progress {
 	left: 35%;
 
 	right: 35%;
-	
+
 	position: fixed;
 	transition: all 0.25s ease-in-out;
 	transform-origin: top;
@@ -291,7 +266,7 @@ progress {
 
 	pointer-events: none;
 	opacity: 0;
-	
+
 	/* From https://css.glass */
 	background: rgba(184, 57, 76, 0.35);
 	border-radius: 16px;
@@ -311,10 +286,9 @@ progress {
 	flex-grow: 10;
 }
 
-
 footer {
-    width: 100%;
-    text-align: center;
-    margin-top: 3rem;
-    position: static;
+	width: 100%;
+	text-align: center;
+	margin-top: 3rem;
+	position: static;
 }

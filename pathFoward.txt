@@ -1,9 +1,4 @@
-next:
-
-- Color the correct and such in the grading thing
-
-----
-
+(2)
 To do the training...
 1. import questions to "data"
 1.5. make a "no question" screen
@@ -11,19 +6,16 @@ To do the training...
 3. Use next button function
 4. At end: reset using 1.
 
-Pulling questions 
+
+(3)
+Pulling questions
    add:
       a. selection check for each Q
       b. end Test
       b2. save questions to training plan
       c. select all missed questions button
 
----- 
-Training button should not work if not logged in
 
-It also needs to turn off results
-
----
-
+(1)
 login dropdown
    For now: Log out

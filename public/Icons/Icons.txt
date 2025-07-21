@@ -1,0 +1,7 @@
+Icons from https://tablericons.com/
+
+VSCode
+    To edit the source code of the icons:
+        1. Right click the file in the sidebar 
+        2. Select "Open With..."
+        3. Select "Text Editor"

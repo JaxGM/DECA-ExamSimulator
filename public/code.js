@@ -264,6 +264,7 @@ function newExam(type) {
 				}
 
 				if (data != "error" && type == "test" && Array.isArray(data)) {
+					reset();
 					status = "test";
 					document.getElementById("ExamType").innerText = data[0][0];
 

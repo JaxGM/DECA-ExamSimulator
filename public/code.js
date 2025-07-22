@@ -48,10 +48,13 @@ let correct,
 	cdcDate,
 	icdcDate,
 	incorrect,
+	testAverage,
+	totalExams,
 	progress,
 	questionSet,
 	reviewSet,
 	scoreChart,
+	memberSince,
 	url,
 	email,
 	username,
@@ -63,6 +66,20 @@ let correct,
 let loggedIn = false;
 
 /////////////////////////////////////////////////////////////////////////
+
+async function pullFromDatabase(path) {
+    try {
+        const snapshot = await get(ref(database, path));
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            return "error";
+        }
+    } catch (error) {
+        return "error";
+    }
+}
+
 
 // Calculates and displays the countdown to CDC testing and ICDC testing
 function dates() {
@@ -108,22 +125,22 @@ function reset() {
 function onStart() {
 	reset();
 
-	// const debugUsername = "jax_m@icloud.com"
-	// const debugPassword = "bobbob"
+	const debugUsername = "jacksongreymiller@gmail.com"
+	const debugPassword = "bobbob"
 
-	// signInWithEmailAndPassword(auth, debugUsername, debugPassword)
-	// 	.then((userCredential) => {
-	// 		// Signed in
-	// 		user = userCredential.user;
-	// 		console.log(true);
-	// 		loadUser();
-	// 	})
-	// toggleLoginPopup();
+	signInWithEmailAndPassword(auth, debugUsername, debugPassword)
+		.then((userCredential) => {
+			// Signed in
+			user = userCredential.user;
+			console.log(true);
+			loadUser();
+		})
+	toggleLoginPopup();
 
-	document.getElementById("UsernameText").innerHTML = "Debug" + " <strong>☰</strong>";	
-		document.getElementById("LoginExternal").hidden = true;
-		document.getElementById("Username").hidden = false;
-		loggedIn = true;
+	// document.getElementById("UsernameText").innerHTML = "Debug" + " <strong>☰</strong>";	
+	// 	document.getElementById("LoginExternal").hidden = true;
+	// 	document.getElementById("Username").hidden = false;
+	// 	loggedIn = true;
 
 	// Updates countdowns
 	dates();
@@ -553,27 +570,50 @@ function toggleLoginPopup() {
 	}
 }
 
-function loadUser() {
+
+
+async function loadUser() {
 	console.log("loading user");
 	toggleLoginPopup();
 
-	get(ref(database, "users/" + user.uid + "/info/username")) // <-- use 'database' here
-		.then((snapshot) => {
-			if (snapshot.exists()) {
-				username = snapshot.val();
-			} else {
-				username = "error";
-			}
-			document.getElementById("UsernameText").innerText =
-				"" + username + " <strong>☰</strong>";
-			// ▼
+	username = await pullFromDatabase("Users/" + user.uid + "/Info/Username")
+	if (username != "error") {
+		document.getElementById("UsernameText").innerHTML =
+				username + " <strong>☰</strong>";
 			document.getElementById("LoginExternal").hidden = true;
-			document.getElementById("Username").hidden = false;
+			document.getElementById("Username").style.display = "flex";
 			loggedIn = true;
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+		document.getElementById("UsernameWithIcon").innerHTML = '<img class="icon" src="Icons/user-circle.svg" style="filter: brightness(0) invert(1);"> ' + username
+	} else {
+		console.error(username)
+	}
+
+	testAverage = await pullFromDatabase("Users/" + user.uid + "/Stats/Test_Average")
+	if (testAverage != "error") {
+		document.getElementById("AvgExam").innerHTML = "<strong>Average Exam:</strong> "+testAverage+"%"
+	} else {
+		console.error(testAverage)
+	}
+	
+	totalExams = await pullFromDatabase("Users/" + user.uid + "/Stats/Total_Exams")
+	if (totalExams != "error") {
+		document.getElementById("TotalExams").innerHTML = "<strong>Total Exams:</strong> "+totalExams+""
+	} else {
+		console.error(totalExams)
+	}
+
+	memberSince = await pullFromDatabase("Users/" + user.uid + "/Info/Date_Joined") //comes out in format 2025-07-09T19:52:48.536Z
+	if (memberSince != "error") {
+		// convert memberSince to "Jan 2025"
+		const dateObj = new Date(memberSince);
+		const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		const formatted = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+		document.getElementById("UserSince").innerHTML = "<strong>User Since:</strong> " + formatted;
+	} else {
+		console.error(memberSince)
+	}
+	
+	
 }
 
 function signUp() {
@@ -590,10 +630,15 @@ function signUp() {
 					user = userCredential.user;
 					console.log(true);
 
-					set(ref(database, "users/" + user.uid + "/info"), {
-						username: username,
-						email: email,
-						date_joined: new Date().toISOString(),
+					set(ref(database, "Users/" + user.uid + "/Info"), {
+						Username: username,
+						Email: email,
+						Date_Joined: new Date().toISOString()
+					});
+
+					set(ref(database, "Users/" + user.uid + "/Stats"), {
+						Test_Average: 0,
+						Total_Exams: 0
 					});
 
 					loadUser();

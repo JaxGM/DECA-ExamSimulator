@@ -25,33 +25,34 @@
 				<u>Click to Log In</u>
 			</p>
 
-			<div id="Username">
+			<div id="Username" style="display: none;">
 				<p
 					id="UsernameText"
 					class="clickable"
 					
 				>
-					<u>Username ⌄</u>
+					<u>Username</u>
 				</p>
 				<div class="dropdown-content-container">
-					<p style="color: white; margin-left: 0.5rem; margin-bottom: 0.75rem;"><img class="icon" src="Icons/user-circle.svg" style="filter: brightness(0) invert(1);"> Username</p>
+					<p style="color: white; margin-left: 0.5rem; margin-bottom: 0.75rem;" id="UsernameWithIcon"><img class="icon" src="Icons/user-circle.svg" style="filter: brightness(0) invert(1);"> Username</p>
 					
-					<div style=" color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+					<div style=" color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
 						<div style="display: flex; flex-direction: column; gap: 0.75rem;">
-							<p style="margin-left: 0.25rem; margin-top: 0; margin-bottom: 0;"><strong>Average Exam:</strong> 50%</p>
-							<p style="margin-left: 0.25rem; margin-top: 0; margin-bottom: 0;"><strong>Total Exams:</strong> 10</p>
-							<p style="margin-left: 0.25rem; margin-top: 0; margin-bottom: 0;"><strong>User Since:</strong> Jun 2024</p>
+							<p style="margin-left: 0.25rem; margin-top: 0; margin-bottom: 0;" id="AvgExam"><strong>Average Exam:</strong> 50%</p>
+							<p style="margin-left: 0.25rem; margin-top: 0; margin-bottom: 0;" id="TotalExams"><strong>Total Exams:</strong> 10</p>
+							<p style="margin-left: 0.25rem; margin-top: 0; margin-bottom: 0;" id="UserSince"><strong>User Since:</strong> Jun 2024</p>
 							
 						</div>
 						<img class="icon" src="Icons/chart-bar.svg" style="filter: brightness(0) invert(1); height: 5rem !important; margin-left: 2rem;">
 					</div>
 					
 					<p style="color: white; text-align: center; margin: 0;">-----</p>
-					<p class="dropdown-content">Change Password <img class="icon" src="Icons/key.svg"></p>
-					<p class="dropdown-content">Logout <img class="icon" src="Icons/logout-2.svg"></p>
+					<p class="dropdown-content clickable">Change Password <img class="icon" src="Icons/key.svg"></p>
+					<p class="dropdown-content clickable">Logout <img class="icon" src="Icons/logout-2.svg"></p>
+					<p class="dropdown-content clickable">Delete Account <img class="icon" src="Icons/radioactive.svg"></p>
 					<p style="color: white; text-align: center; margin: 0;">-----</p>
-					<p class="dropdown-content">Bug Report <img class="icon" src="Icons/bug.svg"></p>
-					<p class="dropdown-content">Site Info <img class="icon" src="Icons/info-square-rounded.svg"></p>
+					<p class="dropdown-content clickable">Bug Report <img class="icon" src="Icons/bug.svg"></p>
+					<p class="dropdown-content clickable">Site Info <img class="icon" src="Icons/info-square-rounded.svg"></p>
 
 				</div>
 			</div>
@@ -206,7 +207,7 @@
 						type="text"
 						name="text"
 						class="loginField"
-						placeholder="Usrname"
+						placeholder="Username"
 						id="UsernameField"
 						hidden
 					/>

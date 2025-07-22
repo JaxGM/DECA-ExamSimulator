@@ -15,6 +15,7 @@ Pulling questions
       b2. save questions to training plan
       c. select all missed questions button
 
+(4) stats
 
 (1)
 login dropdown

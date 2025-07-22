@@ -253,7 +253,11 @@ progress {
 	backdrop-filter: blur(7.6px);
 	-webkit-backdrop-filter: blur(7.6px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
-	}
+}
+
+.dropdown-content:hover {
+	background: rgba(255, 255, 255, 0.74);
+}
 
 #Username:hover .dropdown-content-container {
 	display: flex;

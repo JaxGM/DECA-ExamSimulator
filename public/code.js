@@ -120,7 +120,7 @@ function onStart() {
 	// 	})
 	// toggleLoginPopup();
 
-	document.getElementById("UsernameText").innerText = "" + "Debug" + "  ◀";	
+	document.getElementById("UsernameText").innerHTML = "Debug" + " <strong>☰</strong>";	
 		document.getElementById("LoginExternal").hidden = true;
 		document.getElementById("Username").hidden = false;
 		loggedIn = true;
@@ -264,7 +264,6 @@ function newExam(type) {
 				}
 
 				if (data != "error" && type == "test" && Array.isArray(data)) {
-					reset();
 					status = "test";
 					document.getElementById("ExamType").innerText = data[0][0];
 
@@ -566,7 +565,7 @@ function loadUser() {
 				username = "error";
 			}
 			document.getElementById("UsernameText").innerText =
-				"" + username + "  ◀";
+				"" + username + " <strong>☰</strong>";
 			// ▼
 			document.getElementById("LoginExternal").hidden = true;
 			document.getElementById("Username").hidden = false;

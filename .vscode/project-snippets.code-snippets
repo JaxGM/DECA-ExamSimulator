@@ -1,0 +1,9 @@
+{
+  "Insert Icon Image": {
+    "prefix": "icon",
+    "body": [
+      "<img class=\"icon\" src=\"Icons/${1:filename}\">"
+    ],
+    "description": "Insert project-specific icon image"
+  }
+}

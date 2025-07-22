@@ -15,6 +15,12 @@ body {
 	);
 }
 
+.icon {
+	height: 2.5rem;
+	object-fit: contain;
+	vertical-align: middle;
+}
+
 #Title {
 	font-family: sans-serif;
 	display: flex;
@@ -29,7 +35,7 @@ h1 {
 	font-size: 2.5rem;
 }
 
-img {
+#DECA_Logo {
 	width: 3.5rem;
 	height: 3.5rem;
 
@@ -250,7 +256,10 @@ progress {
 	}
 
 #Username:hover .dropdown-content-container {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	max-height: 75%;
+	flex-wrap: wrap;
 }
 
 

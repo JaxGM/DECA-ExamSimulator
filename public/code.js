@@ -1,3 +1,5 @@
+const debug = 1;
+
 // Global Data
 import * as global from "./global.js";
 
@@ -126,23 +128,26 @@ function reset() {
 function onStart() {
 	reset();
 
-	email = "admin@admin.com";
-	password = "123456";
+	if (debug == 1) {
+		email = "admin@admin.com";
+		password = "123456";
 
-	signInWithEmailAndPassword(auth, email, password).then(
-		(userCredential) => {
-			// Signed in
-			user = userCredential.user;
-			console.log(true);
-			loadUser();
-		}
-	);
-	toggleLoginPopup();
-
-	// document.getElementById("UsernameText").innerHTML = "Debug" + " <strong>☰</strong>";
-	// 	document.getElementById("LoginExternal").hidden = true;
-	// 	document.getElementById("Username").style.display = "flex";
-	// 	loggedIn = true;
+		signInWithEmailAndPassword(auth, email, password).then(
+			(userCredential) => {
+				// Signed in
+				user = userCredential.user;
+				console.log(true);
+				loadUser();
+			}
+		);
+		toggleLoginPopup();
+	} else if (debug == 2) {
+		document.getElementById("UsernameText").innerHTML =
+			"Debug" + " <strong>☰</strong>";
+		document.getElementById("LoginExternal").hidden = true;
+		document.getElementById("Username").style.display = "flex";
+		loggedIn = true;
+	}
 
 	// Updates countdowns
 	dates();
@@ -154,7 +159,7 @@ function onStart() {
 		.then((response) => response.json())
 		.then((response) => console.log(response))
 		.catch((err) => console.error(err));
-		
+
 	status = "await";
 }
 
@@ -266,7 +271,8 @@ function newExam(type) {
 		url = document.getElementById("URL").value;
 
 		// DEBUG MODE
-		// url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
+		url =
+			"https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
 		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
 			method: "GET",
@@ -278,7 +284,7 @@ function newExam(type) {
 				console.log(data);
 
 				if (data != "error") {
-					// General Reset
+					reset();
 				}
 
 				if (data != "error" && type == "test" && Array.isArray(data)) {
@@ -706,21 +712,32 @@ function logout() {
 			"Are you sure you want to log out? This will refresh all content and end any ongoing practice."
 		)
 	) {
-		/////////////////////////
+		signOut(auth)
+			.then(() => {
+				location.reload();
+			})
+			.catch((error) => {
+				console.error("Error signing out:", error);
+			});
 	}
 }
 
-function bugReport() {}
+function bugReport() {
+	window.open(
+		"https://github.com/JaxGM/DECA-ExamSimulator/issues/new",
+		"_blank"
+	);
+}
 
 function changePassword() {
 	sendPasswordResetEmail(auth, email)
 		.then(() => {
-			alert("A password reset email has been sent to your inbox.")
+			alert("A password reset email has been sent to your inbox.");
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			// ..
+			alert(error);
 		});
 }
 
@@ -733,7 +750,8 @@ function deleteAccount() {
 			.then(() => {
 				user.delete()
 					.then(() => {
-						location.reload(); ////////////////////////
+						signOut.auth;
+						location.reload();
 					})
 					.catch((error) => {
 						alert("Error deleting account: " + error.message);
@@ -745,7 +763,9 @@ function deleteAccount() {
 	}
 }
 
-function siteInfo() {}
+function siteInfo() {
+	window.open("https://github.com/JaxGM/DECA-ExamSimulator", "_blank");
+}
 
 /////////////////////////////////////////////////////////////////////////
 

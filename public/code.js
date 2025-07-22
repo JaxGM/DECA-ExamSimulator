@@ -266,8 +266,7 @@ function newExam(type) {
 		url = document.getElementById("URL").value;
 
 		// DEBUG MODE
-		url =
-			"https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
+		// url = "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
 		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
 			method: "GET",

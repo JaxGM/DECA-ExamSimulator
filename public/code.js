@@ -16,6 +16,7 @@ import {
 	browserSessionPersistence,
 	signOut,
 	sendPasswordResetEmail,
+	deleteUser,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
 	getDatabase,
@@ -68,18 +69,17 @@ let loggedIn = false;
 /////////////////////////////////////////////////////////////////////////
 
 async function pullFromDatabase(path) {
-    try {
-        const snapshot = await get(ref(database, path));
-        if (snapshot.exists()) {
-            return snapshot.val();
-        } else {
-            return "error";
-        }
-    } catch (error) {
-        return "error";
-    }
+	try {
+		const snapshot = await get(ref(database, path));
+		if (snapshot.exists()) {
+			return snapshot.val();
+		} else {
+			return "error";
+		}
+	} catch (error) {
+		return "error";
+	}
 }
-
 
 // Calculates and displays the countdown to CDC testing and ICDC testing
 function dates() {
@@ -122,24 +122,26 @@ function dates() {
 function reset() {
 	document.getElementById("contnet").innerHTML = reset_content;
 }
+
 function onStart() {
 	reset();
 
-	const debugUsername = "jacksongreymiller@gmail.com"
-	const debugPassword = "bobbob"
+	email = "admin@admin.com";
+	password = "123456";
 
-	signInWithEmailAndPassword(auth, debugUsername, debugPassword)
-		.then((userCredential) => {
+	signInWithEmailAndPassword(auth, email, password).then(
+		(userCredential) => {
 			// Signed in
 			user = userCredential.user;
 			console.log(true);
 			loadUser();
-		})
+		}
+	);
 	toggleLoginPopup();
 
-	// document.getElementById("UsernameText").innerHTML = "Debug" + " <strong>☰</strong>";	
+	// document.getElementById("UsernameText").innerHTML = "Debug" + " <strong>☰</strong>";
 	// 	document.getElementById("LoginExternal").hidden = true;
-	// 	document.getElementById("Username").hidden = false;
+	// 	document.getElementById("Username").style.display = "flex";
 	// 	loggedIn = true;
 
 	// Updates countdowns
@@ -152,7 +154,7 @@ function onStart() {
 		.then((response) => response.json())
 		.then((response) => console.log(response))
 		.catch((err) => console.error(err));
-
+		
 	status = "await";
 }
 
@@ -570,50 +572,72 @@ function toggleLoginPopup() {
 	}
 }
 
-
-
 async function loadUser() {
 	console.log("loading user");
 	toggleLoginPopup();
 
-	username = await pullFromDatabase("Users/" + user.uid + "/Info/Username")
+	username = await pullFromDatabase("Users/" + user.uid + "/Info/Username");
 	if (username != "error") {
 		document.getElementById("UsernameText").innerHTML =
-				username + " <strong>☰</strong>";
-			document.getElementById("LoginExternal").hidden = true;
-			document.getElementById("Username").style.display = "flex";
-			loggedIn = true;
-		document.getElementById("UsernameWithIcon").innerHTML = '<img class="icon" src="Icons/user-circle.svg" style="filter: brightness(0) invert(1);"> ' + username
+			username + " <strong>☰</strong>";
+		document.getElementById("LoginExternal").hidden = true;
+		document.getElementById("Username").style.display = "flex";
+		loggedIn = true;
+		document.getElementById("UsernameWithIcon").innerHTML =
+			'<img class="icon" src="Icons/user-circle.svg" style="filter: brightness(0) invert(1);"> ' +
+			username;
 	} else {
-		console.error(username)
+		console.error(username);
 	}
 
-	testAverage = await pullFromDatabase("Users/" + user.uid + "/Stats/Test_Average")
+	testAverage = await pullFromDatabase(
+		"Users/" + user.uid + "/Stats/Test_Average"
+	);
 	if (testAverage != "error") {
-		document.getElementById("AvgExam").innerHTML = "<strong>Average Exam:</strong> "+testAverage+"%"
+		document.getElementById("AvgExam").innerHTML =
+			"<strong>Average Exam:</strong> " + testAverage + "%";
 	} else {
-		console.error(testAverage)
-	}
-	
-	totalExams = await pullFromDatabase("Users/" + user.uid + "/Stats/Total_Exams")
-	if (totalExams != "error") {
-		document.getElementById("TotalExams").innerHTML = "<strong>Total Exams:</strong> "+totalExams+""
-	} else {
-		console.error(totalExams)
+		console.error(testAverage);
 	}
 
-	memberSince = await pullFromDatabase("Users/" + user.uid + "/Info/Date_Joined") //comes out in format 2025-07-09T19:52:48.536Z
+	totalExams = await pullFromDatabase(
+		"Users/" + user.uid + "/Stats/Total_Exams"
+	);
+	if (totalExams != "error") {
+		document.getElementById("TotalExams").innerHTML =
+			"<strong>Total Exams:</strong> " + totalExams + "";
+	} else {
+		console.error(totalExams);
+	}
+
+	memberSince = await pullFromDatabase(
+		"Users/" + user.uid + "/Info/Date_Joined"
+	); //comes out in format 2025-07-09T19:52:48.536Z
 	if (memberSince != "error") {
 		// convert memberSince to "Jan 2025"
 		const dateObj = new Date(memberSince);
-		const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		const formatted = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
-		document.getElementById("UserSince").innerHTML = "<strong>User Since:</strong> " + formatted;
+		const monthNames = [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		];
+		const formatted = `${
+			monthNames[dateObj.getMonth()]
+		} ${dateObj.getFullYear()}`;
+		document.getElementById("UserSince").innerHTML =
+			"<strong>User Since:</strong> " + formatted;
 	} else {
-		console.error(memberSince)
+		console.error(memberSince);
 	}
-	
-	
 }
 
 function signUp() {
@@ -633,12 +657,12 @@ function signUp() {
 					set(ref(database, "Users/" + user.uid + "/Info"), {
 						Username: username,
 						Email: email,
-						Date_Joined: new Date().toISOString()
+						Date_Joined: new Date().toISOString(),
 					});
 
 					set(ref(database, "Users/" + user.uid + "/Stats"), {
 						Test_Average: 0,
-						Total_Exams: 0
+						Total_Exams: 0,
 					});
 
 					loadUser();
@@ -677,6 +701,53 @@ function logIn() {
 	}
 }
 
+function logout() {
+	if (
+		confirm(
+			"Are you sure you want to log out? This will refresh all content and end any ongoing practice."
+		)
+	) {
+		/////////////////////////
+	}
+}
+
+function bugReport() {}
+
+function changePassword() {
+	sendPasswordResetEmail(auth, email)
+		.then(() => {
+			alert("A password reset email has been sent to your inbox.")
+		})
+		.catch((error) => {
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			// ..
+		});
+}
+
+function deleteAccount() {
+	if (
+		confirm("Are you sure you want to delete this account?") &&
+		confirm("This action is permanant and will remove all related content.")
+	) {
+		remove(ref(database, "Users/" + user.uid))
+			.then(() => {
+				user.delete()
+					.then(() => {
+						location.reload(); ////////////////////////
+					})
+					.catch((error) => {
+						alert("Error deleting account: " + error.message);
+					});
+			})
+			.catch((error) => {
+				alert("Error deleting user data: " + error.message);
+			});
+	}
+}
+
+function siteInfo() {}
+
 /////////////////////////////////////////////////////////////////////////
 
 // Export the functions
@@ -695,4 +766,9 @@ export {
 	togglePasswordVisability,
 	signUp,
 	logIn,
+	logout,
+	bugReport,
+	changePassword,
+	deleteAccount,
+	siteInfo,
 };

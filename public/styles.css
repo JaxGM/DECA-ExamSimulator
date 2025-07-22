@@ -213,8 +213,6 @@ progress {
 	font-size: 1.25rem;
 }
 
-
-
 #Username {
 	margin-right: 1.5rem;
 	display: flex;
@@ -222,12 +220,10 @@ progress {
 	align-items: flex-end;
 }
 
-
 .dropdown-content-container {
 	display: none;
 	position: absolute;
 	z-index: 1;
-	/* width: 12.5%; */
 
 	/* From https://css.glass */
 	background: rgba(35, 93, 167, 0.65);
@@ -246,7 +242,7 @@ progress {
 	padding: 0.5rem;
 	text-align: right;
 
-		/* From https://css.glass */
+	/* From https://css.glass */
 	background: rgba(255, 255, 255, 0.64);
 	border-radius: 8px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -258,11 +254,14 @@ progress {
 .dropdown-content:hover {
 	background: rgba(255, 255, 255, 0.74);
 }
+.dropdown-content:active {
+	background: rgba(255, 255, 255, 0.9)  ;
+}
 
 #Username:hover .dropdown-content-container {
 	display: flex;
 	flex-direction: column;
-	max-height: 75%;
+	max-height: 90%;
 	flex-wrap: wrap;
 }
 

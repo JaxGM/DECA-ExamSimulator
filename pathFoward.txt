@@ -17,6 +17,9 @@ Pulling questions
 
 (4) stats
 
+(4.5) Launch
+
+(5) Auth persistance
+
 (1)
 login dropdown
-   For now: Log out

@@ -1,6 +1,6 @@
 (2)
 To do the training...
-1. import questions to "data"
+   on button, add qs, deactivate checks, vanish checks (lock & 0% opacity)
 1.5. make a "no question" screen
 2. generate questions using the old code.
 3. Use next button function
@@ -20,6 +20,3 @@ Pulling questions
 (4.5) Launch
 
 (5) Auth persistance
-
-(1)
-login dropdown

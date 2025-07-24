@@ -58,6 +58,8 @@ h2 {
 	padding-bottom: 0.5rem;
 	margin: 0.75rem;
 
+	position: relative;
+
 	/* From https://css.glass */
 	background: rgba(255, 255, 255, 0.5);
 	border-radius: 16px;
@@ -304,6 +306,10 @@ progress {
 
 .clickable:hover {
 	cursor: hand;
+}
+
+.selectToSave {
+	margin: 3rem;
 }
 
 .popup {

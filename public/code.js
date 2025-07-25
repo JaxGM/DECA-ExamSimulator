@@ -62,6 +62,8 @@ let correct,
 	status,
 	user,
 	qualifyingButtons,
+	toCommit,
+	temp,
 	currentQ;
 let loggedIn = false;
 
@@ -329,14 +331,14 @@ function newExam(type) {
 
 			reviewSet =
 				`<div style="position: absolute; top: 0.75rem; right: 0.75rem; width: 7.75rem; height: 11rem; max-height: 6rem; display: flex; align-items: flex-end;">
-				<button style="width: 100%">
+				<button style="width: 100%" id="saveToTPButton" onClick="code.saveToTP()" hidden>
 				Save Selected Questions to Training Plan
 				</button>
-				</div>`
-				+ '<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
+				</div>` +
+				'<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
 			for (let i = 1; i < data.length; i++) {
 				reviewSet +=
-					`<div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">` + 
+					`<div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">` +
 					`<div id="rid${i}" class="reviewPart" onClick="code.callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
 					`<div id="${i}ReviewChoiceA" class="ReviewChoice"><p id="${i}ALetterR">&nbspA.&nbsp</p><p id="${i}ATextR">${data[i][2]}</p></div>` +
 					`<div id="${i}ReviewChoiceB" class="ReviewChoice"><p id="${i}BLetterR">&nbspB.&nbsp</p><p id="${i}BTextR">${data[i][3]}</p></div>` +
@@ -347,16 +349,11 @@ function newExam(type) {
 					`</div></div>`;
 			}
 
-			
-
-
 			document.getElementById("BubbleReveiw").innerHTML = reviewSet;
 
-
-			document.querySelectorAll('.selectToSave').forEach(el => {
+			document.querySelectorAll(".selectToSave").forEach((el) => {
 				el.hidden = true;
 			});
-
 
 			document.getElementById("controls").hidden = false;
 			document.getElementById("controls").className = "controlsON";
@@ -498,8 +495,9 @@ function scoreTest() {
 	document.getElementById("ProgressPercent").hidden = true;
 	document.getElementById("ProgressBar").hidden = true;
 	document.getElementById("ProgressText").hidden = true;
+	document.getElementById("saveToTPButton").hidden = false;
 
-	document.querySelectorAll('.selectToSave').forEach(el => {
+	document.querySelectorAll(".selectToSave").forEach((el) => {
 		el.hidden = false;
 	});
 
@@ -508,8 +506,7 @@ function scoreTest() {
 	document.getElementById("reviewButton").innerText = "Results";
 
 	for (let i = 1; i <= 100; i++) {
-
-		document.getElementById("checkboxQ"+i).checked = true;
+		document.getElementById("checkboxQ" + i).checked = true;
 
 		// Score
 
@@ -523,7 +520,7 @@ function scoreTest() {
 					.getElementById(i + "AnswerChoice" + data[i][9])
 					.classList.add("greenRight");
 				correct = correct + 1;
-				document.getElementById("checkboxQ"+i).checked = false;
+				document.getElementById("checkboxQ" + i).checked = false;
 			} else if (data[i][9] != data[i][6]) {
 				document
 					.getElementById(i + "ReviewChoice" + data[i][9])
@@ -792,6 +789,26 @@ function siteInfo() {
 	window.open("https://github.com/JaxGM/DECA-ExamSimulator", "_blank");
 }
 
+function saveToTP() {
+	toCommit = [];
+
+	for (let i = 1; i <= 100; i++) {
+		if (
+			document.getElementById("checkboxQ" + i).checked &&
+			!document.getElementById("checkboxQ" + i).disabled
+		) {
+			document.getElementById("checkboxQ" + i).disabled = true;
+			document
+				.getElementById("checkboxQ" + i)
+				.classList.remove("clickable");
+			// temp = data[i];
+			// temp = temp.shift()
+			// // temp= temp.pop()
+			toCommit.push(data[i].slice(1, -2))
+		}
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////
 
 // Export the functions
@@ -815,4 +832,5 @@ export {
 	changePassword,
 	deleteAccount,
 	siteInfo,
+	saveToTP,
 };

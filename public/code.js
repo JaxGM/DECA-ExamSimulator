@@ -15,15 +15,14 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	sendPasswordResetEmail,
-	deleteUser,
+	sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
 	getDatabase,
 	ref,
 	set,
 	get,
-	remove,
+	remove
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -33,7 +32,7 @@ const firebaseConfig = {
 	storageBucket: "deca-examsimulator.firebasestorage.app",
 	messagingSenderId: "565902611634",
 	appId: "1:565902611634:web:a2bc18199ebae4d60f25ab",
-	databaseURL: "https://deca-examsimulator-default-rtdb.firebaseio.com",
+	databaseURL: "https://deca-examsimulator-default-rtdb.firebaseio.com"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -119,51 +118,8 @@ function dates() {
 		icdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;ICDC";
 }
-
-// Start Code
 function reset() {
 	document.getElementById("contnet").innerHTML = reset_content;
-}
-
-function onStart() {
-	reset();
-
-	if (debug == 1) {
-		email = "admin@admin.com";
-		password = "";
-
-		signInWithEmailAndPassword(auth, email, password).then(
-			(userCredential) => {
-				// Signed in
-				user = userCredential.user;
-				console.log(true);
-				loadUser();
-			}
-		);
-		toggleLoginPopup();
-	} else if (debug == 2) {
-		document.getElementById("UsernameText").innerHTML =
-			"Debug" + " <strong>☰</strong>";
-		document.getElementById("LoginExternal").hidden = true;
-		document.getElementById("Username").style.display = "flex";
-		loggedIn = true;
-	}
-
-	// Updates countdowns
-	dates();
-	// newExam("test");
-	// callReview();
-	// scoreTest();
-
-	// Awakes Server
-	fetch("https://deca-examprocessor.onrender.com/url?link=awake", {
-		method: "GET",
-	})
-		.then((response) => response.json())
-		.then((response) => console.log(response))
-		.catch((err) => console.error(err));
-
-	status = "await";
 }
 
 // Optimized for TEST mode, pulls up the requested question
@@ -936,6 +892,52 @@ function checkTrainingQ(letter) {
 	}
 
 	document.getElementById("Reasoning").hidden = false;
+}
+
+function onStart() {
+	reset();
+
+	if (debug == 1) {
+		email = "admin@admin.com";
+		password = "";
+
+		signInWithEmailAndPassword(auth, email, password).then(
+			(userCredential) => {
+				// Signed in
+				user = userCredential.user;
+				console.log(true);
+				loadUser();
+			}
+		);
+		toggleLoginPopup();
+	} else if (debug == 2) {
+		document.getElementById("UsernameText").innerHTML =
+			"Debug" + " <strong>☰</strong>";
+		document.getElementById("LoginExternal").hidden = true;
+		document.getElementById("Username").style.display = "flex";
+		loggedIn = true;
+	}
+
+	// Updates countdowns
+	dates();
+	// newExam("test");
+	// callReview();
+	// scoreTest();
+
+	// Awakes Server
+	fetch("https://deca-examprocessor.onrender.com/url?link=awake", {
+		method: "GET",
+	})
+		.then((response) => response.json())
+		.then((response) => console.log(response))
+		.catch((err) => console.error(err));
+	
+	if (user) {
+		loadUser
+	} ////////////HELP HELP HELPO
+	
+
+	status = "await";
 }
 
 /////////////////////////////////////////////////////////////////////////

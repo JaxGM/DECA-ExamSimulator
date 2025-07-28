@@ -614,9 +614,25 @@ function scoreTest() {
 		document.getElementById("BButton" + i).disabled = true;
 		document.getElementById("CButton" + i).disabled = true;
 		document.getElementById("DButton" + i).disabled = true;
-
-		status = "await";
 	}
+
+	status = "await";
+
+	testAverage = testAverage * totalExams;
+	totalExams = totalExams + 1;
+	testAverage = testAverage + correct;
+	testAverage = testAverage / totalExams;
+
+	set(ref(database, "Users/" + user.uid + "/Stats"), {
+		Test_Average: testAverage,
+		Total_Exams: totalExams,
+	});
+
+	document.getElementById("AvgExam").innerHTML =
+		"<strong>Average Exam:</strong> " + Math.round(testAverage * 10) / 10 + "%";
+
+	document.getElementById("TotalExams").innerHTML =
+		"<strong>Total Exams:</strong> " + totalExams + "";
 
 	// Display Score
 	displayResults();

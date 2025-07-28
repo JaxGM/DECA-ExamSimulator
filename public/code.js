@@ -1,4 +1,4 @@
-const debug = 2;
+const debug = 0;
 
 // Global Data
 import * as global from "./global.js";
@@ -62,8 +62,9 @@ let correct,
 	status,
 	user,
 	qualifyingButtons,
-	toCommit,
 	temp,
+	localTP,
+	currentTPIndex,
 	currentQ;
 let loggedIn = false;
 
@@ -129,7 +130,7 @@ function onStart() {
 
 	if (debug == 1) {
 		email = "admin@admin.com";
-		password = "123456";
+		password = "";
 
 		signInWithEmailAndPassword(auth, email, password).then(
 			(userCredential) => {
@@ -150,9 +151,9 @@ function onStart() {
 
 	// Updates countdowns
 	dates();
-	newExam("test");
-	callReview();
-	scoreTest();
+	// newExam("test");
+	// callReview();
+	// scoreTest();
 
 	// Awakes Server
 	fetch("https://deca-examprocessor.onrender.com/url?link=awake", {
@@ -171,7 +172,7 @@ function callQuestion(number) {
 	document.getElementById("advancement>").hidden = false;
 	document.getElementById("BubbleQuestion").hidden = false;
 
-	document.getElementById("BubbleReveiw").hidden = true;
+	document.getElementById("BubbleReview").hidden = true;
 	document.getElementById("reviewButton").hidden = false;
 	document.getElementById("subScore").hidden = true;
 
@@ -179,7 +180,7 @@ function callQuestion(number) {
 	document.getElementById("id" + currentQ).hidden = true;
 	currentQ = number;
 	document.getElementById("id" + number).hidden = false;
-	document.getElementById("questionNumber").innerText = "Questiom " + number;
+	document.getElementById("questionNumber").innerText = "Question " + number;
 }
 
 // Records a radio button click
@@ -263,6 +264,44 @@ function altAnswer(q, a) {
 	document.getElementById(a + "Button" + q).click();
 }
 
+function trainNext(keep) {
+	if (!keep) {
+		localTP.splice(currentTPIndex, 1);
+
+		try {
+			set(ref(database, "Users/" + user.uid + "/TrainingPlan"), localTP);
+		} catch (error) {
+			try {
+				set(
+					ref(database, "Users/" + user.uid + "/TrainingPlan"),
+					localTP
+				);
+			} catch (error) {
+				alert(
+					"You are currently disconnected from the server and your training plan is NOT being updated at this time."
+				);
+			}
+		}
+		document.getElementById("mode").innerText =
+			localTP.length + " Questions Available";
+		currentTPIndex = -1;
+	}
+
+	temp = currentTPIndex;
+
+	while (temp == currentTPIndex) {
+		currentTPIndex = Math.floor(Math.random() * localTP.length);
+	}
+
+	document.getElementById("trainingBubble").innerHTML =
+		`<div id="id"><p id="QuestionPhrase">${localTP[currentTPIndex][0]}</p><div id="AnswerChoices">` +
+		`<div id="AnswerChoiceA" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('A')" name="RadioButton" id="AButton"><p id="ALetter" class="clickable" onClick="code.checkTrainingQ('A')">&nbspA.&nbsp</p><p id="AText" class="clickable" onClick="code.checkTrainingQ('A')">${localTP[currentTPIndex][1]}</p></div>` +
+		`<div id="AnswerChoiceB" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('B')" name="RadioButton" id="BButton"><p id="BLetter" class="clickable" onClick="code.checkTrainingQ('B')">&nbspB.&nbsp</p><p id="BText" class="clickable" onClick="code.checkTrainingQ('B')">${localTP[currentTPIndex][2]}</p></div>` +
+		`<div id="AnswerChoiceC" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('C')" name="RadioButton" id="CButton"><p id="CLetter" class="clickable" onClick="code.checkTrainingQ('C')">&nbspC.&nbsp</p><p id="CText" class="clickable" onClick="code.checkTrainingQ('C')">${localTP[currentTPIndex][3]}</p></div>` +
+		`<div id="AnswerChoiceD" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('D')" name="RadioButton" id="DButton"><p id="DLetter" class="clickable" onClick="code.checkTrainingQ('D')">&nbspD.&nbsp</p><p id="DText" class="clickable" onClick="code.checkTrainingQ('D')">${localTP[currentTPIndex][4]}</p></div>` +
+		`</div><p id="Reasoning" class="reasoning" hidden> <strong><em>${localTP[currentTPIndex][6]}</strong></em> </p></div>`;
+}
+
 // Activates the core functionality of the program
 function newExam(type) {
 	// Functionality is currenlty only enabled for TEST, not TRAINING.
@@ -273,105 +312,109 @@ function newExam(type) {
 		url = document.getElementById("URL").value;
 
 		// DEBUG MODE
-		url =
-			"https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
+		// url =
+		// "https://cdn.prod.website-files.com/635c470cc81318fc3e9c1e0e/67c1d65441573664321a854f_24-25_BA%20Core%20Exam.pdf";
 
-		// fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
-		// 	method: "GET",
-		// })
-		// 	.then((response) => response.json())
-		// 	.then((response) => {
-		// 		// NEEDS TO BE CLEANED
-		// 		data = response;
+		fetch("https://deca-examprocessor.onrender.com/url?link=" + url, {
+			method: "GET",
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				// NEEDS TO BE CLEANED
+				data = response;
 
-		// hardocded
-		data = global.hardCodedData;
-		console.log(data);
+				// hardocded
+				// data = global.hardCodedData;
+				console.log(data);
 
-		if (data != "error") {
-			reset();
-		}
+				if (data != "error") {
+					reset();
+				}
 
-		if (data != "error" && type == "test" && Array.isArray(data)) {
-			status = "test";
-			document.getElementById("ExamType").innerText = data[0][0];
+				if (data != "error" && type == "test" && Array.isArray(data)) {
+					status = "test";
+					document.getElementById("ExamType").innerText = data[0][0];
 
-			document.getElementById("ScoreChart").style.display = "none";
+					document.getElementById("ScoreChart").style.display =
+						"none";
 
-			document.getElementById("newTest").innerText = "New Test";
+					document.getElementById("newTest").innerText = "New Test";
 
-			document.getElementById("reviewButton").innerText = "Review";
+					document.getElementById("reviewButton").innerText =
+						"Review";
 
-			document.getElementById("mode").innerText = "Testing Mode";
-			correct = 0;
-			incorrect = 0;
-			progress = 0;
-			document.getElementById("ProgressPercent").innerText =
-				progress + "%";
-			document.getElementById("ProgressBar").value = progress;
-			document.getElementById("ProgressText").innerText =
-				progress + "/100";
+					document.getElementById("mode").innerText = "Testing Mode";
+					correct = 0;
+					incorrect = 0;
+					progress = 0;
+					document.getElementById("ProgressPercent").innerText =
+						progress + "%";
+					document.getElementById("ProgressBar").value = progress;
+					document.getElementById("ProgressText").innerText =
+						progress + "/100";
 
-			document.getElementById("Progress").hidden = false;
-			document.getElementById("ProgressPercent").hidden = false;
-			document.getElementById("ProgressBar").hidden = false;
-			document.getElementById("ProgressText").hidden = false;
+					document.getElementById("Progress").hidden = false;
+					document.getElementById("ProgressPercent").hidden = false;
+					document.getElementById("ProgressBar").hidden = false;
+					document.getElementById("ProgressText").hidden = false;
 
-			questionSet = "";
-			for (let i = 1; i < data.length; i++) {
-				questionSet +=
-					`<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
-					`<div id="${i}AnswerChoiceA" class="clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onClick="code.altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onClick="code.altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
-					`<div id="${i}AnswerChoiceB" class="clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onClick="code.altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onClick="code.altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
-					`<div id="${i}AnswerChoiceC" class="clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onClick="code.altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onClick="code.altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
-					`<div id="${i}AnswerChoiceD" class="clickable AnswerChoice"><input type="radio" onClick="code.recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onClick="code.altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onClick="code.altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
-					`</div><p id="${i}Reasoning" class="reasoning" hidden></p></div>`;
-			}
-			document.getElementById("BubbleQuestion").innerHTML = questionSet;
+					questionSet = "";
+					for (let i = 1; i < data.length; i++) {
+						questionSet +=
+							`<div id="id${i}" hidden><p id="QuestionPhrase">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+							`<div id="${i}AnswerChoiceA" class=" AnswerChoice"><input type="radio" class="clickable" onClick="code.recordResponce()" name="RadioButton${i}" id="AButton${i}"><p id="${i}ALetter" class="clickable" onClick="code.altAnswer(${i}, A)">&nbspA.&nbsp</p><p id="${i}AText" class="clickable" onClick="code.altAnswer(${i}, 'A')">${data[i][2]}</p></div>` +
+							`<div id="${i}AnswerChoiceB" class=" AnswerChoice"><input type="radio" class="clickable" onClick="code.recordResponce()" name="RadioButton${i}" id="BButton${i}"><p id="${i}BLetter" class="clickable" onClick="code.altAnswer(${i}, B)">&nbspB.&nbsp</p><p id="${i}BText" class="clickable" onClick="code.altAnswer(${i}, 'B')">${data[i][3]}</p></div>` +
+							`<div id="${i}AnswerChoiceC" class=" AnswerChoice"><input type="radio" class="clickable" onClick="code.recordResponce()" name="RadioButton${i}" id="CButton${i}"><p id="${i}CLetter" class="clickable" onClick="code.altAnswer(${i}, C)">&nbspC.&nbsp</p><p id="${i}CText" class="clickable" onClick="code.altAnswer(${i}, 'C')">${data[i][4]}</p></div>` +
+							`<div id="${i}AnswerChoiceD" class=" AnswerChoice"><input type="radio" class="clickable" onClick="code.recordResponce()" name="RadioButton${i}" id="DButton${i}"><p id="${i}DLetter" class="clickable" onClick="code.altAnswer(${i}, D)">&nbspD.&nbsp</p><p id="${i}DText" class="clickable" onClick="code.altAnswer(${i}, 'D')">${data[i][5]}</p></div>` +
+							`</div><p id="${i}Reasoning" class="reasoning" hidden></p></div>`;
+					}
+					document.getElementById("BubbleQuestion").innerHTML =
+						questionSet;
 
-			reviewSet =
-				`<div style="position: absolute; top: 0.75rem; right: 0.75rem; width: 7.75rem; height: 11rem; max-height: 6rem; display: flex; align-items: flex-end;">
+					reviewSet =
+						`<div style="position: absolute; top: 0.75rem; right: 0.75rem; width: 7.75rem; height: 11rem; max-height: 6rem; display: flex; align-items: flex-end;">
 				<button style="width: 100%" id="saveToTPButton" onClick="code.saveToTP()" hidden>
 				Save Selected Questions to Training Plan
 				</button>
 				</div>` +
-				'<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
-			for (let i = 1; i < data.length; i++) {
-				reviewSet +=
-					`<div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">` +
-					`<div id="rid${i}" class="reviewPart" onClick="code.callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
-					`<div id="${i}ReviewChoiceA" class="ReviewChoice"><p id="${i}ALetterR">&nbspA.&nbsp</p><p id="${i}ATextR">${data[i][2]}</p></div>` +
-					`<div id="${i}ReviewChoiceB" class="ReviewChoice"><p id="${i}BLetterR">&nbspB.&nbsp</p><p id="${i}BTextR">${data[i][3]}</p></div>` +
-					`<div id="${i}ReviewChoiceC" class="ReviewChoice"><p id="${i}CLetterR">&nbspC.&nbsp</p><p id="${i}CTextR">${data[i][4]}</p></div>` +
-					`<div id="${i}ReviewChoiceD" class="ReviewChoice"><p id="${i}DLetterR">&nbspD.&nbsp</p><p id="${i}DTextR">${data[i][5]}</p></div>` +
-					`</div></div>` +
-					`<input type="checkbox" class="selectToSave clickable" id="checkboxQ${i}">` +
-					`</div></div>`;
-			}
+						'<h2 id="RevHead" style="text-align: center;"><u>Review</u></h2><h5 id="Disclaim" hidden style="text-align: center;">*For answer descriptions, select the question :)</h5>';
+					for (let i = 1; i < data.length; i++) {
+						reviewSet +=
+							`<div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">` +
+							`<div id="rid${i}" class="reviewPart" onClick="code.callQuestion(${i})"><p id="QuestionPhrase" style="font-size: 1rem">${i}. ${data[i][1]}</p><div id="AnswerChoices">` +
+							`<div id="${i}ReviewChoiceA" class="ReviewChoice"><p id="${i}ALetterR">&nbspA.&nbsp</p><p id="${i}ATextR">${data[i][2]}</p></div>` +
+							`<div id="${i}ReviewChoiceB" class="ReviewChoice"><p id="${i}BLetterR">&nbspB.&nbsp</p><p id="${i}BTextR">${data[i][3]}</p></div>` +
+							`<div id="${i}ReviewChoiceC" class="ReviewChoice"><p id="${i}CLetterR">&nbspC.&nbsp</p><p id="${i}CTextR">${data[i][4]}</p></div>` +
+							`<div id="${i}ReviewChoiceD" class="ReviewChoice"><p id="${i}DLetterR">&nbspD.&nbsp</p><p id="${i}DTextR">${data[i][5]}</p></div>` +
+							`</div></div>` +
+							`<input type="checkbox" class="selectToSave clickable" id="checkboxQ${i}">` +
+							`</div></div>`;
+					}
 
-			document.getElementById("BubbleReveiw").innerHTML = reviewSet;
+					document.getElementById("BubbleReview").innerHTML =
+						reviewSet;
 
-			document.querySelectorAll(".selectToSave").forEach((el) => {
-				el.hidden = true;
+					document.querySelectorAll(".selectToSave").forEach((el) => {
+						el.hidden = true;
+					});
+
+					document.getElementById("controls").hidden = false;
+					document.getElementById("controls").className =
+						"controlsON";
+
+					currentQ = 1;
+					callQuestion(1);
+				} else {
+					//error out
+					document.getElementById("newTest").innerText = "New Test";
+					alert("An error has occurred. Please try again. Make sure you entered a correct DECA Exam link!");
+					console.log("error");
+					console.log(data);
+				}
+			})
+			.catch((err) => {
+				console.error(err);
 			});
-
-			document.getElementById("controls").hidden = false;
-			document.getElementById("controls").className = "controlsON";
-
-			currentQ = 1;
-			callQuestion(1);
-		} else {
-			//error out
-			document.getElementById("newTest").innerText = "New Test";
-			alert("An error has occurred. Please try again.");
-			console.log("error");
-			console.log(data);
-		}
-		// 	}
-		// )
-		// 			.catch((err) => {
-		// 				console.error(err);
-		// 			});
 	} else if (type == "training") {
 		if (loggedIn) {
 			reset();
@@ -385,8 +428,9 @@ function newExam(type) {
 
 			status = "training";
 
-			document.getElementById("newTraining").innerText = "Enter Trianing";
-			document.getElementById("mode").innerText = "20 Questions Avalible";
+			document.getElementById("newTraining").innerText = "Enter Training";
+			document.getElementById("mode").innerText =
+				localTP.length + " Questions Available";
 
 			document.getElementById("Progress").hidden = true;
 			document.getElementById("ProgressPercent").hidden = true;
@@ -398,8 +442,10 @@ function newExam(type) {
 			document.getElementById("TrainRemove").hidden = false;
 			document.getElementById("TrainWords").hidden = false;
 
-			//Get training plan
-			// Pull training question from trainingPlan.
+			document.getElementById("trainingBubble").hidden = false;
+			currentTPIndex = -1;
+
+			trainNext(true);
 		} else {
 			toggleLoginPopup();
 		}
@@ -414,7 +460,7 @@ function callReview() {
 		document.getElementById("advancement>").hidden = true;
 		document.getElementById("reviewButton").hidden = true;
 
-		document.getElementById("BubbleReveiw").hidden = false;
+		document.getElementById("BubbleReview").hidden = false;
 
 		document.getElementById("questionNumber").innerText = "Results Page";
 	} else {
@@ -422,7 +468,7 @@ function callReview() {
 		document.getElementById("advancement>").hidden = true;
 		document.getElementById("BubbleQuestion").hidden = true;
 
-		document.getElementById("BubbleReveiw").hidden = false;
+		document.getElementById("BubbleReview").hidden = false;
 		document.getElementById("reviewButton").hidden = true;
 		document.getElementById("subScore").hidden = false;
 
@@ -430,7 +476,7 @@ function callReview() {
 	}
 }
 
-// Goes to the next quetion (or review page)
+// Goes to the next question (or review page)
 function nextQuestion() {
 	if (currentQ < 100) {
 		callQuestion(currentQ + 1);
@@ -439,7 +485,7 @@ function nextQuestion() {
 	}
 }
 
-// Goes to the qeustion before
+// Goes to the question before
 function lastQuestion() {
 	if (currentQ != 1) {
 		callQuestion(currentQ - 1);
@@ -448,7 +494,7 @@ function lastQuestion() {
 
 // Creates chart and displays scores
 function displayResults() {
-	// Set Visable
+	// Set Visible
 	document.getElementById("ScoreChart").style.display = "flex";
 
 	// Show Numerical Results
@@ -637,6 +683,15 @@ async function loadUser() {
 		console.error(totalExams);
 	}
 
+	temp = await pullFromDatabase("Users/" + user.uid + "/TrainingPlan");
+
+	if (temp != "error") {
+		localTP = temp.map((row) => Object.values(row));
+	} else {
+		localTP = [];
+	}
+	console.log(localTP);
+
 	memberSince = await pullFromDatabase(
 		"Users/" + user.uid + "/Info/Date_Joined"
 	); //comes out in format 2025-07-09T19:52:48.536Z
@@ -766,7 +821,7 @@ function changePassword() {
 function deleteAccount() {
 	if (
 		confirm("Are you sure you want to delete this account?") &&
-		confirm("This action is permanant and will remove all related content.")
+		confirm("This action is permanent and will remove all related content.")
 	) {
 		remove(ref(database, "Users/" + user.uid))
 			.then(() => {
@@ -789,9 +844,7 @@ function siteInfo() {
 	window.open("https://github.com/JaxGM/DECA-ExamSimulator", "_blank");
 }
 
-function saveToTP() {
-	toCommit = [];
-
+async function saveToTP() {
 	for (let i = 1; i <= 100; i++) {
 		if (
 			document.getElementById("checkboxQ" + i).checked &&
@@ -801,12 +854,65 @@ function saveToTP() {
 			document
 				.getElementById("checkboxQ" + i)
 				.classList.remove("clickable");
-			// temp = data[i];
-			// temp = temp.shift()
-			// // temp= temp.pop()
-			toCommit.push(data[i].slice(1, -2))
+			localTP.push(data[i].slice(1, -2));
 		}
 	}
+
+	set(ref(database, "Users/" + user.uid + "/TrainingPlan"), localTP);
+
+	alert("The content has successfully been saved to your training plan.");
+}
+
+function checkTrainingQ(letter) {
+	document.getElementById(letter + "Button").checked = true;
+
+	document.getElementById("AButton").disabled = true;
+	document.getElementById("AButton").classList.remove("clickable");
+	document.getElementById("ALetter").classList.remove("clickable");
+	document.getElementById("AText").classList.remove("clickable");
+	document.getElementById("AButton").onclick = null;
+	document.getElementById("ALetter").onclick = null;
+	document.getElementById("AText").onclick = null;
+
+	document.getElementById("BButton").disabled = true;
+	document.getElementById("BButton").classList.remove("clickable");
+	document.getElementById("BLetter").classList.remove("clickable");
+	document.getElementById("BText").classList.remove("clickable");
+	document.getElementById("BButton").onclick = null;
+	document.getElementById("BLetter").onclick = null;
+	document.getElementById("BText").onclick = null;
+
+	document.getElementById("CButton").disabled = true;
+	document.getElementById("CButton").classList.remove("clickable");
+	document.getElementById("CLetter").classList.remove("clickable");
+	document.getElementById("CText").classList.remove("clickable");
+	document.getElementById("CButton").onclick = null;
+	document.getElementById("CLetter").onclick = null;
+	document.getElementById("CText").onclick = null;
+
+	document.getElementById("DButton").disabled = true;
+	document.getElementById("DButton").classList.remove("clickable");
+	document.getElementById("DLetter").classList.remove("clickable");
+	document.getElementById("DText").classList.remove("clickable");
+	document.getElementById("DButton").onclick = null;
+	document.getElementById("DLetter").onclick = null;
+	document.getElementById("DText").onclick = null;
+
+	if (letter == localTP[currentTPIndex][5]) {
+		document.getElementById(letter + "Letter").classList.add("greenRight");
+		document.getElementById(letter + "Text").classList.add("greenRight");
+	} else {
+		document.getElementById(letter + "Letter").classList.add("redWrong");
+		document.getElementById(letter + "Text").classList.add("redWrong");
+		document
+			.getElementById(localTP[currentTPIndex][5] + "Letter")
+			.classList.add("actualAnswer");
+		document
+			.getElementById(localTP[currentTPIndex][5] + "Text")
+			.classList.add("actualAnswer");
+	}
+
+	document.getElementById("Reasoning").hidden = false;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -814,6 +920,7 @@ function saveToTP() {
 // Export the functions
 export {
 	onStart,
+	checkTrainingQ,
 	callQuestion,
 	recordResponce,
 	altAnswer,
@@ -833,4 +940,5 @@ export {
 	deleteAccount,
 	siteInfo,
 	saveToTP,
+	trainNext,
 };

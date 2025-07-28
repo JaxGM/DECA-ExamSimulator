@@ -48,19 +48,21 @@ export const reset_content =
 					</p>
 					<button
 						hidden
-						id="TrainKeep"
+						id="TrainRemove"
 						class="trainingButtion"
-						style="background-color: rgb(135, 0, 0); opacity: 0.85"
+						style="background-color: rgb(135, 0, 0); opacity: 0.7"
+						onclick="code.trainNext(false)"
 					>
-						<strong>Next - </strong>Keep in Training Plan
+						<strong>Next - </strong>Remove from Training Plan
 					</button>
 					<button
 						hidden
-						id="TrainRemove"
+						id="TrainKeep"
 						class="trainingButtion"
-						style="background-color: rgb(0, 135, 0); opacity: 0.85"
+						style="background-color: rgb(0, 135, 0); opacity: 0.7"
+						onclick="code.trainNext(true)"
 					>
-						<strong>Next - </strong>Remove from Training Plan
+						<strong>Next - </strong>Keep in Training Plan
 					</button>
 				</div>
 
@@ -83,39 +85,10 @@ export const reset_content =
 			</div>
 
 			<div class="bubble" id="BubbleQuestion" hidden>
-				<div id="id1">
-					<p id="QuestionPhrase">
-						1. You have been asked a question. Select the correct
-						answer.
-					</p>
-					<div id="AnswerChoices">
-						<div id="AnswerChoice">
-							<input
-								type="radio"
-								name="RadioButton"
-								class="Radio"
-								onclick="code.recordResponce()"
-								id="AButton"
-							/>
-							<p id="ALetter">&nbspA.&nbsp</p>
-							<p id="AText">recriutment</p>
-						</div>
-
-						<div id="AnswerChoice">
-							<input
-								type="radio"
-								name="RadioButton"
-								id="BButton"
-							/>
-							<p id="BLetter">&nbspB.&nbsp</p>
-							<p id="BText">somthing</p>
-						</div>
-					</div>
-					<p id="1Reasoning" class="reasoning">Demo</p>
-				</div>
+				
 			</div>
 
-			<div class="bubble" id="BubbleReveiw" hidden></div>
+			<div class="bubble" id="BubbleReview" hidden></div>
 
 			<div class="popup" id="LoginPage">
 				<div
@@ -201,4 +174,18 @@ export const reset_content =
 					<p id="errorOnLogin"><em></em></p>
 					<p class="clickable"><u>Forgot Password</u></p>
 				</div>
-			</div>`
+			</div>
+			
+			
+			<div class="bubble" id="trainingBubble" hidden>
+				
+
+			</div>
+			
+			
+			
+			
+			
+			
+			`
+

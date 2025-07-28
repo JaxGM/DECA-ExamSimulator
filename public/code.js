@@ -289,17 +289,22 @@ function trainNext(keep) {
 
 	temp = currentTPIndex;
 
-	while (temp == currentTPIndex) {
-		currentTPIndex = Math.floor(Math.random() * localTP.length);
-	}
+	if (localTP.length == 0) {
+		alert("You have emptied your Training Plan");
+		reset();
+	} else {
+		while (temp == currentTPIndex) {
+			currentTPIndex = Math.floor(Math.random() * localTP.length);
+		}
 
-	document.getElementById("trainingBubble").innerHTML =
-		`<div id="id"><p id="QuestionPhrase">${localTP[currentTPIndex][0]}</p><div id="AnswerChoices">` +
-		`<div id="AnswerChoiceA" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('A')" name="RadioButton" id="AButton"><p id="ALetter" class="clickable" onClick="code.checkTrainingQ('A')">&nbspA.&nbsp</p><p id="AText" class="clickable" onClick="code.checkTrainingQ('A')">${localTP[currentTPIndex][1]}</p></div>` +
-		`<div id="AnswerChoiceB" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('B')" name="RadioButton" id="BButton"><p id="BLetter" class="clickable" onClick="code.checkTrainingQ('B')">&nbspB.&nbsp</p><p id="BText" class="clickable" onClick="code.checkTrainingQ('B')">${localTP[currentTPIndex][2]}</p></div>` +
-		`<div id="AnswerChoiceC" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('C')" name="RadioButton" id="CButton"><p id="CLetter" class="clickable" onClick="code.checkTrainingQ('C')">&nbspC.&nbsp</p><p id="CText" class="clickable" onClick="code.checkTrainingQ('C')">${localTP[currentTPIndex][3]}</p></div>` +
-		`<div id="AnswerChoiceD" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('D')" name="RadioButton" id="DButton"><p id="DLetter" class="clickable" onClick="code.checkTrainingQ('D')">&nbspD.&nbsp</p><p id="DText" class="clickable" onClick="code.checkTrainingQ('D')">${localTP[currentTPIndex][4]}</p></div>` +
-		`</div><p id="Reasoning" class="reasoning" hidden> <strong><em>${localTP[currentTPIndex][6]}</strong></em> </p></div>`;
+		document.getElementById("trainingBubble").innerHTML =
+			`<div id="id"><p id="QuestionPhrase">${localTP[currentTPIndex][0]}</p><div id="AnswerChoices">` +
+			`<div id="AnswerChoiceA" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('A')" name="RadioButton" id="AButton"><p id="ALetter" class="clickable" onClick="code.checkTrainingQ('A')">&nbspA.&nbsp</p><p id="AText" class="clickable" onClick="code.checkTrainingQ('A')">${localTP[currentTPIndex][1]}</p></div>` +
+			`<div id="AnswerChoiceB" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('B')" name="RadioButton" id="BButton"><p id="BLetter" class="clickable" onClick="code.checkTrainingQ('B')">&nbspB.&nbsp</p><p id="BText" class="clickable" onClick="code.checkTrainingQ('B')">${localTP[currentTPIndex][2]}</p></div>` +
+			`<div id="AnswerChoiceC" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('C')" name="RadioButton" id="CButton"><p id="CLetter" class="clickable" onClick="code.checkTrainingQ('C')">&nbspC.&nbsp</p><p id="CText" class="clickable" onClick="code.checkTrainingQ('C')">${localTP[currentTPIndex][3]}</p></div>` +
+			`<div id="AnswerChoiceD" class=" AnswerChoice"><input type="radio" onClick="code.checkTrainingQ('D')" name="RadioButton" id="DButton"><p id="DLetter" class="clickable" onClick="code.checkTrainingQ('D')">&nbspD.&nbsp</p><p id="DText" class="clickable" onClick="code.checkTrainingQ('D')">${localTP[currentTPIndex][4]}</p></div>` +
+			`</div><p id="Reasoning" class="reasoning" hidden> <strong><em>${localTP[currentTPIndex][6]}</strong></em> </p></div>`;
+	}
 }
 
 // Activates the core functionality of the program
@@ -407,7 +412,9 @@ function newExam(type) {
 				} else {
 					//error out
 					document.getElementById("newTest").innerText = "New Test";
-					alert("An error has occurred. Please try again. Make sure you entered a correct DECA Exam link!");
+					alert(
+						"An error has occurred. Please try again. Make sure you entered a correct DECA Exam link!"
+					);
 					console.log("error");
 					console.log(data);
 				}

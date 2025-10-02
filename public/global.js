@@ -1,6 +1,6 @@
 export const 
-    cdcDate = "",
-    icdcDate = "2026-04-25",
+    cdcDate = "2026-03-06",
+    icdcDate = "2026-04-27",
     hardCodedData = [
     [
         "BUSINESS ADMINISTRATION CORE EXAM",

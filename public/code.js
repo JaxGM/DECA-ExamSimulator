@@ -115,7 +115,7 @@ function dates() {
 	document.getElementById("dates").innerHTML =
 		"<strong>" +
 		cdcDate +
-		"</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;Testing&nbsp;| <strong>" +
+		"</strong>&nbsp;days&nbsp;until&nbsp;Flordia&nbsp;CDC&nbsp;| <strong>" +
 		icdcDate +
 		"</strong>&nbsp;days&nbsp;until&nbsp;ICDC";
 }
